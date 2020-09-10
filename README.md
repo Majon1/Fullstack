@@ -1,13 +1,13 @@
 # FULLSTACK COURSE
 
-[ x ] Part 0 - 2h
-[  ] Part 1
-[  ] Part 2
-[  ] Part 3
-[  ] Part 4
-[  ] Part 5
-[  ] Part 6
-[  ] Part 7
-[  ] Part 8
-[  ] Part 9
-[  ] Part 10
+[ x ] Part 0 - 2h <br />
+[  ] Part 1 <br />
+[  ] Part 2 <br />
+[  ] Part 3 <br />
+[  ] Part 4 <br />
+[  ] Part 5 <br />
+[  ] Part 6 <br />
+[  ] Part 7 <br />
+[  ] Part 8 <br />
+[  ] Part 9 <br />
+[  ] Part 10 <br />
