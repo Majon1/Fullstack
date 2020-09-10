@@ -1,4 +1,4 @@
-FULLSTACK COURSE
+# FULLSTACK COURSE
 
 [ x ] Part 0 - 2h
 [  ] Part 1
