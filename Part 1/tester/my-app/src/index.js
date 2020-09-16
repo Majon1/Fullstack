@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React from 'react'
 import ReactDOM from 'react-dom'
 
-/*const Hello = ({name, age }) => {
+const Hello = ({name, age }) => {
    const bornYear = () => new Date().getFullYear() - age
   
   return (
@@ -26,7 +26,7 @@ const App = () => {
     <Hello name={name} age={age} />
     </div>
   )
-}
+}/*
 const Display = ({ counter }) => <div>{counter}</div>
 
 const Button = ({ handleClick, text }) => (
@@ -60,6 +60,7 @@ const App = () => {
     </div>
   )
 }*/
+/*
 const History = (props) => {
   if (props.allClicks.length === 0) {
     return (
@@ -107,7 +108,7 @@ const App = (props) => {
       </div>
     </div>
   )
-}
+}*/
 
 ReactDOM.render(
   <App />,
