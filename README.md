@@ -5,8 +5,8 @@
 
 Part | Exercises | / total
 --- | --- | --- 
-Part 0 | Done | 
-Part 1 |  |   
+Part 0 | 6 | 6
+Part 1 |  | 14 
 Part 2 |  |    
 Part 3 |  |   
 Part 4 |  |    
