@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 
-const Hello = ({name, age }) => {
-   const bornYear = () => new Date().getFullYear() - age
-  
+
+/*const Hello = ({ name, age }) => {
+  const bornYear = () => new Date().getFullYear() - age
+
   return (
     <div>
       <p>
@@ -21,19 +22,20 @@ const App = () => {
 
   return (
     <div>
-    <h1>Greetings</h1>
-    <Hello name="Maya" age={26 + 10} />
-    <Hello name={name} age={age} />
+      <h1>Greetings</h1>
+      <Hello name="Maya" age={26 + 10} />
+      <Hello name={name} age={age} />
     </div>
   )
-}/*
+}*/
+/*
 const Display = ({ counter }) => <div>{counter}</div>
 
 const Button = ({ handleClick, text }) => (
-    <button onClick={handleClick}>
-      {text}
-    </button>
-  )
+  <button onClick={handleClick}>
+    {text}
+  </button>
+)
 
 const App = () => {
   const [counter, setCounter] = useState(0)
@@ -59,8 +61,8 @@ const App = () => {
       />
     </div>
   )
-}*/
-/*
+}
+*/
 const History = (props) => {
   if (props.allClicks.length === 0) {
     return (
@@ -96,7 +98,7 @@ const App = (props) => {
     setAll(allClicks.concat('R'))
     setRight(right + 1)
   }
-
+  
   return (
     <div>
       <div>
@@ -108,7 +110,7 @@ const App = (props) => {
       </div>
     </div>
   )
-}*/
+}
 
 ReactDOM.render(
   <App />,
