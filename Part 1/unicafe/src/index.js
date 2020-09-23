@@ -12,7 +12,7 @@ const Statistics = (props) => {
   <div>neutral {props.neu}</div>
   <div>bad {props.neg}</div>
   <div>all {props.all}</div>
-  <div>average {props.all/3}</div>
+  <div>average {(props.pos-props.neg)/props.all}</div>
   <div>positive {props.pos/props.all *100}%</div>
  </div>
 )
