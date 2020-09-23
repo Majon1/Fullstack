@@ -2,32 +2,33 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 const Course = (props) => {
-
+  console.log('course works...', props)
   return (
     <div>
-      <Header course={props.course.name} />
+      <Header course={props.course} />
       <Content parts={props.course.parts} />
     </div>
-  )// <Total parts={props.course.parts} />
+  // <Total total={course} />
+  )
 }
 const Header = (props) => {
+  console.log('props header works...', props)
   return (
     <div>
-      <p>{props.course}</p>
+    <h2> <p>{props.course.name}</p></h2>
     </div>
   )
 }
 const Content = (props) => {
-  let i = 0
-  //const copy = [...props.parts]
- // copy[i] += 1
-    return (
-      <div>
-        <Parts part={props.parts[i].name} ex={props.parts[i].exercises} />
-      </div>)
-  }
+  console.log('content works...', props)
+  return (
+    <div>
+      <Parts part={props.parts[1].name} ex={props.parts[1].exercises} />
+    </div>)
+}
 
 const Parts = (props) => {
+  console.log('part works...')
   return (
     <div>
       <p> {props.part} {props.ex}</p>
@@ -63,8 +64,12 @@ const App = () => {
       }
     ]
   }
-
-  return <Course course={course} />
+  console.log('app works...')
+  return (
+    <div>
+      <Course course={course} />
+    </div>
+  )
 }
 
 ReactDOM.render
