@@ -9,7 +9,7 @@ const Statistics = (props) => {
   }
   return (
     <table>
-      <div>
+      <tbody>
         <tr>
           <td> good </td><td> {props.pos}</td>
         </tr>
@@ -28,9 +28,8 @@ const Statistics = (props) => {
         <tr>
           <td>positive</td><td> {props.pos / props.all * 100}%</td>
         </tr>
-      </div>
-    </table>
-
+        </tbody>
+    </table> 
   )
 }
 const Button = ({ onClick, text }) => (
