@@ -16,11 +16,8 @@ const App = (props) => {
       setVote(copy)
       console.log(selected)
     }
-    const Max = () => {
-     Math.max.apply(...vote)
-     
-    }
-
+   
+   
   return (
     <div>
       <div> {props.anecdotes[selected]} </div>
@@ -32,7 +29,6 @@ const App = (props) => {
         Next anecdote
         </button>
         <h2>Highest vote</h2>
-        <>daily{Max}</>
     </div> 
   )
 }
