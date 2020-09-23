@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
-    
+
 
 const App = (props) => {
   const [selected, setSelected] = useState(0)
-  const [vote, setVote]= useState(0)
-  const random = anecdotes[Math.floor(Math.random() * anecdotes.length)]
- 
+  const [vote, setVote] = useState(0)
+  let random = anecdotes[Math.floor(Math.random() * anecdotes.length)]
+  
+
   return (
     <div>
       <div> {props.anecdotes[selected]} </div>
@@ -15,12 +16,12 @@ const App = (props) => {
         Vote
       </button>
 
-      <button onClick={() => setSelected(selected + random)}>
+      <button onClick={() => setSelected(selected)}>
         Next anecdote
         </button>
     </div>
   )
-} 
+}
 const anecdotes = [
   'If it hurts, do it more often',
   'Adding manpower to a late software project makes it later!',
@@ -29,7 +30,6 @@ const anecdotes = [
   'Premature optimization is the root of all evil.',
   'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.'
 ]
-
 ReactDOM.render(
   <App anecdotes={anecdotes} />,
   document.getElementById('root')
