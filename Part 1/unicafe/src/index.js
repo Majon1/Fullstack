@@ -9,57 +9,45 @@ const Statistics = (props) => {
   }
   return (
     <div>
-      <Statistic text='good' value={props.pos} />
-      <Statistic text='neutral' value={props.neu} />
-      <Statistic text='bad' value={props.neg} />
-      <Statistic text='all' value={props.all} />
-      <Statistic text='average' value={props.avg} />
-      <Statistic text='positive' value={props.proc} />
+      <table>
+        <tbody>
+        <tr>
+      <td><Statistic text='good'/></td><td> <Statistic value={props.pos}/></td>
+      </tr><tr>
+      <td> <Statistic text='neutral'/></td><td><Statistic value={props.neu} /></td>
+      </tr><tr>
+      <td> <Statistic text='bad'/></td><td><Statistic value={props.neg} /></td>
+      </tr><tr>
+      <td> <Statistic text='all'/></td><td><Statistic value={props.all} /></td>
+      </tr><tr>
+      <td> <Statistic text='average' /></td><td><Statistic value={props.avg} /></td>
+      </tr><tr>
+      <td> <Statistic text='positive %' /></td><td><Statistic value={props.proc}/></td>
+      </tr> 
+      </tbody>
+    </table>
     </div>
   )
 }
 const Statistic = (props) => {
+  if (props.text=== 'positive') {
+    return (
+    <div>
+    {props.text} {props.value}
+  </div>
+    )
+  }
   return (
     <div>
-      <table>
-        <tbody>
-          <tr>
-         <td> {props.text} </td>  <td>{props.value}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>)
+    {props.text} {props.value}
+  </div>
+  )
 }
-/* <table>
-   <tbody>
-     <tr>
-       <td> good </td><td> {props.pos}</td>
-     </tr>
-     <tr>
-       <td>neutral </td><td>{props.neu}</td>
-     </tr>
-     <tr>
-       <td>bad </td><td>{props.neg}</td>
-     </tr>
-     <tr>
-       <td>all </td><td>{props.all}</td>
-     </tr>
-     <tr>
-       <td>average</td><td> {(props.pos - props.neg) / props.all}</td>
-     </tr>
-     <tr>
-       <td>positive</td><td> {props.pos / props.all * 100}%</td>
-     </tr>
-     </tbody>
- </table> */
-
-
 const Button = ({ onClick, text }) => (
   <button onClick={onClick}>
     {text}
   </button>
 )
-
 const App = () => {
   // save clicks of each button to own state
   const [good, setGood] = useState(0)
@@ -76,7 +64,6 @@ const App = () => {
       <Statistics pos={good} neu={neutral} neg={bad} all={good + neutral + bad} avg={(good - bad) / (good + neutral + bad)} proc={good / (good + neutral + bad) * 100} />
     </div>
   )
-
 }
 ReactDOM.render(<App />,
   document.getElementById('root')
