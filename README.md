@@ -7,7 +7,7 @@
 Part | Exercises | / total | Hours
 --- | --- | --- | ---
 Part 0 | 6 | 6 | 2
-Part 1 | 5 | 14 | 4
+Part 1 | 14 | 14 | 12
 Part 2 |  | |    
 Part 3 |  | |    
 Part 4 |  | |     
