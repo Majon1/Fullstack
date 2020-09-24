@@ -17,9 +17,9 @@ const [selected, setSelected] = useState(0)
       console.log('added vote', selected);
     }
     const MaxVotes = () => {
-     const result = Math.max(...vote)
+     let result = vote.indexOf(Math.max(...vote))
      console.log('result', result)
-     return (result)
+     return (anecdotes[result])
     } 
   
    console.log('selected ', vote);
