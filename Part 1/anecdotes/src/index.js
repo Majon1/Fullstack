@@ -16,9 +16,14 @@ const [selected, setSelected] = useState(0)
       setVote(copy)
       console.log('added vote', selected);
     }
-
+    const MaxVotes = () => {
+     const result = Math.max(...vote)
+     console.log('result', result)
+     return (result)
+    } 
+  
    console.log('selected ', vote);
-  return (
+    return (
     <div>
       <h2>Anecdotes</h2>
       <p> {props.anecdotes[selected]} </p>
@@ -26,6 +31,7 @@ const [selected, setSelected] = useState(0)
       <Button onClick={AddVote} text='vote'/> 
       <Button onClick={selectValue} text='next anecdote'/>
         <h2>Highest vote</h2>
+        <MaxVotes/>
     </div> 
   )
 }
