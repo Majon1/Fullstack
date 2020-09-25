@@ -19,8 +19,14 @@ const [selected, setSelected] = useState(0)
     const MaxVotes = () => {
      let result = vote.indexOf(Math.max(...vote))
      console.log('result', result)
-     return (anecdotes[result])
-    } 
+     if (result > 0){
+     return (
+      <div> {anecdotes[result]}
+      <p>Has {vote[result]} votes </p>
+      </div>
+     )}
+     if (result <= 0){
+    return (<div>No votes</div>) }}
   
    console.log('selected ', vote);
     return (
