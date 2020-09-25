@@ -6,6 +6,7 @@ const Course = (props) => {
     <div>
       <Header courseN={props.course.name} />
       <Content parts={props.course.parts} />
+      <Total amount={props.course.parts}/>
     </div>
   )
 }
@@ -32,16 +33,18 @@ const Parts = (props) => {
     {part.name + ' ' + part.exercises}</p>)
       return (
        cparts)
-    
 }
-/*
+
 const Total = (props) => {
-  return (
-    <div>
-      <p>Total: {props.parts[0].exercises + props.parts[1].exercises + props.parts[2].exercises}</p>
-    </div>
-  )
-}*/
+  console.log('total prints', props);
+  const total = props.amount.reduce((sum, order) => {
+    console.log('what happens', sum, order)
+   return sum + order.exercises
+   }, 0)
+   return (<h4><p> total of {total} exercises</p></h4> )
+}
+   
+
 const App = () => {
   const course = {
     id: 1,
@@ -62,11 +65,6 @@ const App = () => {
         exercises: 14,
         id: 3
       },
-      {
-        name: 'tester',
-        exercises: 2,
-        id:4
-      }
     ]
   }
 
