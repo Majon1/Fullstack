@@ -3,7 +3,7 @@ import React from 'react'
 const Names =({ person }) => {
     console.log('this person', person);
     return (
-    <li>{person.name}</li>
+    <li>{person.name} {person.number}</li>
     )
   }
   
