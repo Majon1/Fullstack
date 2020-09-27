@@ -4,18 +4,15 @@ import Names from './components/Names'
 
 const App = ({ person }) => {
   const [ persons, setPersons ] = useState([
-    { name: 'Arto Hellas', 
-    id:1 
-  },
+    { name: 'Arto Hellas' }
   ]) 
   const [ newName, setNewName ] = useState('add new name...')
 
   const addPerson =  (event) => {
     event.preventDefault()
-    //console.log('button clicked', event.target)
+    console.log('button clicked', event.target)
     const nameObject = {
-      name: newName,
-      id: persons.length + 1,
+      name: newName
     }
     setPersons(persons.concat(nameObject))
     setNewName('')
@@ -37,7 +34,7 @@ const App = ({ person }) => {
         </form> 
       <h2>Numbers</h2>
         {persons.map(person =>
-        <Names key={person.id} person={person}/>
+        <Names key={person.name} person={person}/>
         )}
     </div></div>
   )
