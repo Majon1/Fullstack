@@ -30,3 +30,7 @@ Part 10 |  | |
 - [ ] Part 8
 - [ ] Part 9
 - [ ] Part 10
+
+###Notes
+- 1.11 - html not showing %-sign
+- 2.6 - works when usid ID
