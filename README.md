@@ -35,3 +35,4 @@ Part 10 |  | |
 - 1.11 - html not showing %-sign
 - 2.6 - ~~works when usid ID~~
 - 2.7 - ~~cannot figure out how to find IF CONTAINS~~, managed to get alert and IF to work
+- 2.9 - filter not working correctly
