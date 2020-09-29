@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import Names from './components/Names'
+import Filter from './components/Filter'
+import PersonForm from './components/PersonForm'
 
 
 const App = () => {
@@ -12,7 +14,7 @@ const App = () => {
 
   const [newName, setNewName] = useState('add new name...')
   const [newNumber, setNewNumber] = useState('add new number...')
-  const [shown, setShown] = useState([])
+  const [shown, setShown] = useState('')
 
   const addPerson = (event) => {
     event.preventDefault()
@@ -39,37 +41,25 @@ const App = () => {
     setNewNumber(event.target.value)
   }
   const handleFind = (event) => {
-    console.log('handlefind gets', event)
-    const search = event.target.value
-    setShown(persons.filter(person => person.name.toLowerCase().includes(search.toLowerCase())))
-  }//data.filter(x => x.title.toLowerCase().includes(term.toLowerCase()))
+    console.log('handlefind gets', event.target.value)
+    setShown(event.target.value)
+   // const setS = (event.target.value)
+   //setShown(persons.filter(person => person.name.toLowerCase().includes(setS.toLowerCase())))
+  //data.filter(x => x.title.toLowerCase().includes(term.toLowerCase()))*/
+}
 
   return (
     <div>
       <h2>Phonebook</h2>
-      <div>
-        filter: <input
-        value={shown}
-        onChange={handleFind} />
-      </div>
+
+      <Filter value={shown} onChange={handleFind} />
+
       <h2>Add new contact</h2>
-      <form onSubmit={addPerson}>
-        <div>
-          name: <input
-            value={newName}
-            onChange={handleNameChange} />
-        </div>
-        <div>
-          number: <input
-            value={newNumber}
-            onChange={handleNumberChange} />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      
+      <PersonForm addPerson={addPerson} onChangeName={handleNameChange} onChangeNumber={handleNumberChange} name={newName} number={newNumber}/>
+
       <h2>Numbers</h2>
-      <div>{shown.map((person) =>
+      <div>{persons.map(person =>
         <Names key={person.name} person={person} />
       )}
     </div></div>
