@@ -1,12 +1,11 @@
 import React from 'react'
 
-const Filter = (props) => {
-    console.log('this filter', props);
+const Filter = ({shown, handleFind}) => {
     return (
         <div>
             filter: <input
-                value={props.value}
-                onChange={props.onChange} />
+                value={shown}
+                onChange={handleFind} />
         </div>)
 }
 

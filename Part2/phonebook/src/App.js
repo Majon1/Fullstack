@@ -43,26 +43,26 @@ const App = () => {
   const handleFind = (event) => {
     console.log('handlefind gets', event.target.value)
     setShown(event.target.value)
-   // const setS = (event.target.value)
-   //setShown(persons.filter(person => person.name.toLowerCase().includes(setS.toLowerCase())))
-  //data.filter(x => x.title.toLowerCase().includes(term.toLowerCase()))*/
-}
+    // const setS = (event.target.value)
+    //setShown(persons.filter(person => person.name.toLowerCase().includes(setS.toLowerCase())))
+    //data.filter(x => x.title.toLowerCase().includes(term.toLowerCase()))*/
+  }
 
   return (
     <div>
       <h2>Phonebook</h2>
 
-      <Filter value={shown} onChange={handleFind} />
+      <Filter value={shown} handleFind={handleFind} />
 
       <h2>Add new contact</h2>
-      
-      <PersonForm addPerson={addPerson} onChangeName={handleNameChange} onChangeNumber={handleNumberChange} name={newName} number={newNumber}/>
+
+      <PersonForm addPerson={addPerson} handleNameChange={handleNameChange} handleNumberChange={handleNumberChange} name={newName} number={newNumber} />
 
       <h2>Numbers</h2>
-      <div>{persons.map(person =>
-        <Names key={person.name} person={person} />
-      )}
-    </div></div>
+
+      <Names persons={persons} shown={shown}/>
+
+    </div>
   )
 }
 

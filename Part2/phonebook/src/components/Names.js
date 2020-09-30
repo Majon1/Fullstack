@@ -1,10 +1,11 @@
 import React from 'react'
 
-const Names =({ person }) => {
-    console.log('this person', person);
-    return (
-    <p>{person.name} {person.number}</p>
-    )
-  }
-  
-  export default Names
+const Names = ({ persons, shown }) => {
+
+  return (
+    <div>
+    {persons.filter(a => a.name.toLowerCase().includes(shown.toLowerCase())).map(a => <div key={a.name}> {a.name} {a.number}</div>)}
+  </div>)
+}
+
+export default Names
