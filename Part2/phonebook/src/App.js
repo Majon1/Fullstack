@@ -1,69 +1,74 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import axios from 'axios'
 import Names from './components/Names'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: 'Arto Hellas', number: '040-123456' },
-    { name: 'Ada Lovelace', number: '39-44-5323523' },
-    { name: 'Dan Abramov', number: '12-43-234345' },
-    { name: 'Mary Poppendieck', number: '39-23-6423122' },
-  ])
-
-  const [newName, setNewName] = useState([])
+  const [persons, setPersons] = useState([])
+  const [newName, setNewName] = useState('add new name...')
   const [newNumber, setNewNumber] = useState('add new number...')
   const [shown, setShown] = useState('')
 
-  const addPerson = (event) => {
-    event.preventDefault()
-    console.log('button clicked', event.target)
-    const nameObject = {
-      name: newName,
-      number: newNumber,
-    }
-    if (persons.some(person => person.name === newName)) {
-      window.alert(newName + ' is already in phonebook!')
-    }
-    else {
-      setPersons(persons.concat(nameObject))
-      setNewName('')
-      setNewNumber('')
-    }
+  const hook = () => {
+    console.log('effect')
+    axios
+      .get('http://localhost:3001/persons')
+      .then(response => {
+        console.log('promise fullfilled')
+        setPersons(response.data)
+      })
   }
+useEffect(hook, [])
+    
+console.log('render', persons.length, 'persons')
 
-  const handleNameChange = (event) => {
-    console.log(event.target.value)
-    setNewName(event.target.value)
+const addPerson = (event) => {
+  event.preventDefault()
+  console.log('button clicked', event.target)
+  const nameObject = {
+    name: newName,
+    number: newNumber,
   }
-  const handleNumberChange = (event) => {
-    setNewNumber(event.target.value)
+  if (persons.some(person => person.name === newName)) {
+    window.alert(newName + ' is already in phonebook!')
   }
-  const handleFind = (event) => {
-    console.log('handlefind gets', event.target.value)
-    setShown(event.target.value)
-    // const setS = (event.target.value)
-    //setShown(persons.filter(person => person.name.toLowerCase().includes(setS.toLowerCase())))
-    //data.filter(x => x.title.toLowerCase().includes(term.toLowerCase()))*/
+  else {
+    setPersons(persons.concat(nameObject))
+    setNewName('')
+    setNewNumber('')
   }
+}
 
-  return (
-    <div>
-      <h2>Phonebook</h2>
+const handleNameChange = (event) => {
+  console.log(event.target.value)
+  setNewName(event.target.value)
+}
+const handleNumberChange = (event) => {
+  setNewNumber(event.target.value)
+}
+const handleFind = (event) => {
+  console.log('handlefind gets', event.target.value)
+  setShown(event.target.value)
+}
 
-      <Filter value={shown} handleFind={handleFind} />
+return (
+  <div>
+    <h2>Phonebook</h2>
 
-      <h2>Add new contact</h2>
+    <Filter value={shown} handleFind={handleFind} />
 
-      <PersonForm addPerson={addPerson} handleNameChange={handleNameChange} handleNumberChange={handleNumberChange} name={newName} number={newNumber} />
+    <h2>Add new contact</h2>
 
-      <h2>Numbers</h2>
+    <PersonForm addPerson={addPerson} handleNameChange={handleNameChange} handleNumberChange={handleNumberChange} name={newName} number={newNumber} />
 
-      <Names persons={persons} shown={shown}/>
+    <h2>Numbers</h2>
 
-    </div>
-  )
+    <Names persons={persons} shown={shown} />
+
+  </div>
+)
 }
 
 export default App

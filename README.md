@@ -8,7 +8,7 @@ Part | Exercises | / total | Hours
 --- | --- | --- | ---
 Part 0 | 6 | 6 | 2
 Part 1 | 14 | 14 | 12
-Part 2 | 8 | 20 |    
+Part 2 | 10 | 20 |    
 Part 3 |  | |    
 Part 4 |  | |     
 Part 5 |  | |    
@@ -32,7 +32,8 @@ Part 10 |  | |
 - [ ] Part 10
 
 ###Notes
-- 1.11 - html not showing %-sign
+- 1.11 - ~~html not showing %-sign~~
 - 2.6 - ~~works when usid ID~~
 - 2.7 - ~~cannot figure out how to find IF CONTAINS~~, managed to get alert and IF to work
 - 2.9 - ~~filter not working correctly~~
+- 2.11 
