@@ -19,7 +19,8 @@ useEffect(hook, [])
     
 console.log('render', countries.length, 'countries')
 
-  const handleFind = (event) => {
+  const handleFilter = (event) => {
+    console.log('event', event.target.value)
     setFind(event.target.value)
     
 }
@@ -28,16 +29,13 @@ console.log('render', countries.length, 'countries')
       <form>
         find countries: <input
         value={findCountry}
-        onChange={handleFind} />
+        onChange={handleFilter} />
         </form>
-        <div>
-        {countries.filter(a => a.name.toLowerCase().includes(findCountry.toLowerCase())).map(a => <div key={a.name}> </div>)}
-      </div>
       </div>
   )
 }
-
-
+//countriesToShow
+//filter.length < 10 AND filter.length = countries.length -1
 ReactDOM.render(
 <App />,document.getElementById('root')
 )
