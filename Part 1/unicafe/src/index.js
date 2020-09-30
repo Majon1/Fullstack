@@ -22,7 +22,7 @@ const Statistics = (props) => {
       </tr><tr>
       <td> <Statistic text='average' /></td><td><Statistic value={props.avg} /></td>
       </tr><tr>
-      <td> <Statistic text='positive %' /></td><td><Statistic value={props.proc}/></td>
+      <td> <Statistic text='positive' /></td><td><Statistic value={props.proc}/></td>
       </tr> 
       </tbody>
     </table>
@@ -61,7 +61,7 @@ const App = () => {
       <Button onClick={() => setNeutral(neutral + 1)} text='neutral' />
       <Button onClick={() => setBad(bad + 1)} text='bad' />
       <h2>Statistics</h2>
-      <Statistics pos={good} neu={neutral} neg={bad} all={good + neutral + bad} avg={(good - bad) / (good + neutral + bad)} proc={good / (good + neutral + bad) * 100} />
+      <Statistics pos={good} neu={neutral} neg={bad} all={good + neutral + bad} avg={(good - bad) / (good + neutral + bad)} proc={good / (good + neutral + bad) * 100 + '%'} />
     </div>
   )
 }
