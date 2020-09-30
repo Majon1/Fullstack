@@ -12,7 +12,7 @@ const App = () => {
     { name: 'Mary Poppendieck', number: '39-23-6423122' },
   ])
 
-  const [newName, setNewName] = useState('add new name...')
+  const [newName, setNewName] = useState([])
   const [newNumber, setNewNumber] = useState('add new number...')
   const [shown, setShown] = useState('')
 
