@@ -8,7 +8,7 @@ Part | Exercises | / total | Hours
 --- | --- | --- | ---
 Part 0 | 6 | 6 | 2
 Part 1 | 14 | 14 | 12
-Part 2 | 10 | 20 |    
+Part 2 | 11 | 20 |    
 Part 3 |  | |    
 Part 4 |  | |     
 Part 5 |  | |    
