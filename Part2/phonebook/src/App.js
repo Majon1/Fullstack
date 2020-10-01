@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
 import Names from './components/Names'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
+import nameService from './services/names'
 
 
 const App = () => {
@@ -11,16 +11,13 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('add new number...')
   const [shown, setShown] = useState('')
 
-  const hook = () => {
-    console.log('effect')
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        console.log('promise fullfilled')
-        setPersons(response.data)
+  useEffect(() => {
+    nameService
+      .getAll()
+      .then(initialNotes => {
+        setPersons(initialNotes)
       })
-  }
-useEffect(hook, [])
+  }, [])
     
 console.log('render', persons.length, 'persons')
 
@@ -37,11 +34,12 @@ const addPerson = (event) => {
   }
   else {
     setPersons(persons.concat(nameObject))
-    axios
-    .post('http://localhost:3001/persons', nameObject)
-    .then(response => {
-      console.log(response)
-    })
+
+    nameService
+      .create(nameObject)
+      .then(returnedNote => {
+        setPersons(persons.concat(returnedNote))
+      })
     setNewName('')
     setNewNumber('')
   }
