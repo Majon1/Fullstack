@@ -4,7 +4,6 @@ import Filter from './components/Filter'
 
 // APP RETURN <FINDER>!!
 
-
 const App = () => {
   const[countries, SetCountry] = useState([])
   const[findCountry, setFind] = useState('start typing...')
@@ -26,14 +25,11 @@ console.log('render', countries.length, 'countries')
 const handleFilter = (event) => {
     console.log('event', event.target.value)
     setFind(event.target.value)
+
 }
   return (
     <div>
-        <Filter findCountry={findCountry} handleFilter={handleFilter}/>,
-        <ul>
-        {notesToShow.map(country =>
-          <li key={country}> {country}</li>
-        </ul>
+        <Filter findCountry={findCountry} handleFilter={handleFilter} countries={countries}/>
       </div>
   )
 }

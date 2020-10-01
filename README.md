@@ -36,4 +36,4 @@ Part 10 |  | |
 - 2.6 - ~~works when usid ID~~
 - 2.7 - ~~cannot figure out how to find IF CONTAINS~~, managed to get alert and IF to work
 - 2.9 - ~~filter not working correctly~~
-- 2.11 
+- 2.11 - now filter the names!!
