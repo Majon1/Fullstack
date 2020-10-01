@@ -30,12 +30,18 @@ const addPerson = (event) => {
   const nameObject = {
     name: newName,
     number: newNumber,
+    id: persons.length + 1,
   }
   if (persons.some(person => person.name === newName)) {
     window.alert(newName + ' is already in phonebook!')
   }
   else {
     setPersons(persons.concat(nameObject))
+    axios
+    .post('http://localhost:3001/persons', nameObject)
+    .then(response => {
+      console.log(response)
+    })
     setNewName('')
     setNewNumber('')
   }
