@@ -84,7 +84,7 @@ const App = () => {
   //IF ELSE!!!!!!!!!!!!
   //Filter works as map, creates an array
 
-  
+
 
   return (
     <div>
