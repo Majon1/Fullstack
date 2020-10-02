@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'
 import Filter from './components/Filter'
-
-// APP RETURN <FINDER>!!
+import Filtering from './components/Filtering'
 
 const App = () => {
   const[countries, SetCountry] = useState([])
@@ -24,17 +23,19 @@ console.log('render', countries.length, 'countries')
  
 const handleFilter = (event) => {
     console.log('event', event.target.value)
-    setFind(event.target.value)
+    setFind(event.target.value)}
 
-}
+    const handleShow = (event) => {
+      console.log('Buttonevent', event.target.value)
+      setFind(event.target.value)
+    }
+
   return (
     <div>
         <Filter findCountry={findCountry} handleFilter={handleFilter} countries={countries}/>
+        <Filtering countries={countries} handleShow={handleShow} findCountry={findCountry} /> 
       </div>
   )
 }
-//countriesToShow
-//filter.length < 10 AND filter.length = countries.length -1
-
 
 export default App
