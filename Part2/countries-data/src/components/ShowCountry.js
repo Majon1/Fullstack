@@ -15,7 +15,12 @@ const ShowCountry = ({ country }) => {
    <br></br>
    <br></br>
    <img src={country.flag} style={size} alt='Flag of country' />
-</div>)
+   <h3>Weather in {country.capital} </h3>
+   <h4>Temperature: </h4>
+   <p>'image'</p>
+   <h4>Wind: </h4>
+
+   </div>)
 }
 
 export default ShowCountry
