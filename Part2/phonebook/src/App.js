@@ -21,6 +21,21 @@ const App = () => {
     
 console.log('render', persons.length, 'persons')
 
+const removeP = (event, id) => {
+  event.preventDefault()
+  console.log('button clicked', event.target)
+  
+  const p =persons.filter(pers=> pers.id !== id)
+  console.log('happening');
+  const removepersons = persons.splice(p)
+  nameService
+      .delete(removepersons)
+      .then(removepersons => {
+        setPersons({removepersons});
+      })
+}
+
+
 const addPerson = (event) => {
   event.preventDefault()
   console.log('button clicked', event.target)
@@ -73,7 +88,7 @@ return (
 
     <h2>Numbers</h2>
 
-    <Names persons={persons} shown={shown} handleShow={handleShow}/>
+    <Names persons={persons} shown={shown} removeP={removeP} handleShow={handleShow} setPersons={setPersons}/>
 
   </div>
 )
