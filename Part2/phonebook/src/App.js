@@ -56,6 +56,10 @@ const handleFind = (event) => {
   console.log('handlefind gets', event.target.value)
   setShown(event.target.value)
 }
+const handleShow = (event) => {
+  console.log('Buttonevent', event.target.value)
+  setShown(event.target.value)
+}
 
 return (
   <div>
@@ -69,7 +73,7 @@ return (
 
     <h2>Numbers</h2>
 
-    <Names persons={persons} shown={shown} />
+    <Names persons={persons} shown={shown} handleShow={handleShow}/>
 
   </div>
 )

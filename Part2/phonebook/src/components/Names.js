@@ -1,11 +1,11 @@
 import React from 'react'
 
-const Names = ({ persons, shown }) => {
-
+const Names = ({ persons, shown, handleShow }) => {
+const filtering = persons.filter(person => person.name.toLowerCase().includes(shown.toLowerCase()))
   return (
     <div>
-    {persons.filter(a => a.name.toLowerCase().includes(shown.toLowerCase())).map(a => <div key={a.name}> {a.name} {a.number}</div>)}
+    {filtering.map(person => <li key={person.name}> {person.name} {person.number} 
+  <button onClick={handleShow} value={persons.number}>Delete</button></li>)}
   </div>)
 }
-
 export default Names
