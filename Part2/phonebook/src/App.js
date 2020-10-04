@@ -3,6 +3,7 @@ import Names from './components/Names'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import nameService from './services/names'
+import './index.css'
 
 
 const App = () => {
@@ -10,6 +11,7 @@ const App = () => {
   const [newName, setNewName] = useState('add new name...')
   const [newNumber, setNewNumber] = useState('add new number...')
   const [shown, setShown] = useState('')
+  const [errorMessage, setErrorMessage] = useState('')
 
   useEffect(() => {
     nameService
@@ -21,20 +23,16 @@ const App = () => {
     
 console.log('render', persons.length, 'persons')
 
-const removeP = (event, id) => {
-  event.preventDefault()
-  console.log('button clicked', event.target)
+const removeP = (id) => {
+  const p = persons.filter(pers => pers.id === id)
+  console.log('pressing delete', p);
   
-  const p =persons.filter(pers=> pers.id !== id)
-  console.log('happening');
-  const removepersons = persons.splice(p)
   nameService
-      .delete(removepersons)
-      .then(removepersons => {
-        setPersons({removepersons});
+      .remove(p) 
+      .then(res => {
+        setPersons(persons.splice(p))
       })
 }
-
 
 const addPerson = (event) => {
   event.preventDefault()
@@ -45,8 +43,11 @@ const addPerson = (event) => {
     id: persons.length + 1,
   }
   if (persons.some(person => person.name === newName)) {
-    window.alert(newName + ' is already in phonebook!')
-  }
+    setErrorMessage(`${nameObject.name} is already in phonebook!`)
+    setTimeout(() => {
+      setErrorMessage(null)
+    }, 5000)
+    }
   else {
     setPersons(persons.concat(nameObject))
 
@@ -58,6 +59,14 @@ const addPerson = (event) => {
     setNewName('')
     setNewNumber('')
   }
+}
+const Notification = ({ message }) => {
+  if (message === null) {
+    return null
+  }
+  return (
+    <div className="error">{message}</div>
+  )
 }
 
 const handleNameChange = (event) => {
@@ -71,16 +80,17 @@ const handleFind = (event) => {
   console.log('handlefind gets', event.target.value)
   setShown(event.target.value)
 }
-const handleShow = (event) => {
+/*const handleShow = (event) => {
   console.log('Buttonevent', event.target.value)
   setShown(event.target.value)
-}
+}*/
 
 return (
   <div>
     <h2>Phonebook</h2>
-
+    <Notification message={errorMessage}/>
     <Filter value={shown} handleFind={handleFind} />
+   
 
     <h2>Add new contact</h2>
 
@@ -88,7 +98,7 @@ return (
 
     <h2>Numbers</h2>
 
-    <Names persons={persons} shown={shown} removeP={removeP} handleShow={handleShow} setPersons={setPersons}/>
+    <Names persons={persons} shown={shown} removeP={removeP}/>
 
   </div>
 )
