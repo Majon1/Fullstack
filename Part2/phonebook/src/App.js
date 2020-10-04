@@ -20,88 +20,95 @@ const App = () => {
         setPersons(initialNotes)
       })
   }, [])
-    
-console.log('render', persons.length, 'persons')
 
-const removeP = (id) => {
-  const p = persons.filter(pers => pers.id === id)
-  console.log('pressing delete', p);
-  
-  nameService
-      .remove(p) 
-      .then(res => {
-        setPersons(persons.splice(p))
-      })
-}
+  console.log('render', persons.length, 'persons')
 
-const addPerson = (event) => {
-  event.preventDefault()
-  console.log('button clicked', event.target)
-  const nameObject = {
-    name: newName,
-    number: newNumber,
-    id: persons.length + 1,
-  }
-  if (persons.some(person => person.name === newName)) {
-    setErrorMessage(`${nameObject.name} is already in phonebook!`)
+  const removeP = (id) => {
+    console.log('pressing delete');
+    setErrorMessage(`${persons.name} was deleted from phonebook!`)
     setTimeout(() => {
       setErrorMessage(null)
     }, 5000)
-    }
-  else {
-    setPersons(persons.concat(nameObject))
 
     nameService
-      .create(nameObject)
-      .then(returnedNote => {
-        setPersons(persons.concat(returnedNote))
+      .remove(id)
+      .then(res => {
+        const del = persons.filter(person => id !== person.id)
+        console.log('deleting', id)
+        setPersons(del)
       })
-    setNewName('')
-    setNewNumber('')
   }
-}
-const Notification = ({ message }) => {
-  if (message === null) {
-    return null
+
+  const addPerson = (event) => {
+    event.preventDefault()
+    console.log('button clicked', event.target)
+    const nameObject = {
+      name: newName,
+      number: newNumber,
+      id: persons.length + 1,
+    }
+    setErrorMessage(`${nameObject.name} was added to phonebook!`)
+    setTimeout(() => {
+      setErrorMessage(null)
+    }, 5000)
+
+    if (persons.some(person => person.name === newName)) {
+      setErrorMessage(`${nameObject.name} is already in phonebook!`)
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
+    }
+    else {
+      setPersons(persons.concat(nameObject))
+
+      nameService
+        .create(nameObject)
+        .then(returnedNote => {
+          setPersons(persons.concat(returnedNote))
+        })
+      setNewName('')
+      setNewNumber('')
+    }
   }
+  const Notification = ({ message }) => {
+    if (message === null) {
+      return null
+    }
+    return (
+      <div className="error">{message}</div>
+    )
+  }
+
+  const handleNameChange = (event) => {
+    console.log(event.target.value)
+    setNewName(event.target.value)
+  }
+  const handleNumberChange = (event) => {
+    setNewNumber(event.target.value)
+  }
+  const handleFind = (event) => {
+    console.log('handlefind gets', event.target.value)
+    setShown(event.target.value)
+  }
+
+
   return (
-    <div className="error">{message}</div>
+    <div>
+      <h2>Phonebook</h2>
+      <Notification message={errorMessage} />
+      <Filter value={shown} handleFind={handleFind} />
+
+
+      <h2>Add new contact</h2>
+
+      <PersonForm addPerson={addPerson} handleNameChange={handleNameChange} handleNumberChange={handleNumberChange} name={newName} number={newNumber} />
+
+      <h2>Numbers</h2>
+
+      <Names persons={persons} shown={shown} removeP={removeP} />
+
+    </div>
   )
-}
-
-const handleNameChange = (event) => {
-  console.log(event.target.value)
-  setNewName(event.target.value)
-}
-const handleNumberChange = (event) => {
-  setNewNumber(event.target.value)
-}
-const handleFind = (event) => {
-  console.log('handlefind gets', event.target.value)
-  setShown(event.target.value)
-}
-/*const handleShow = (event) => {
-  console.log('Buttonevent', event.target.value)
-  setShown(event.target.value)
-}*/
-
-return (
-  <div>
-    <h2>Phonebook</h2>
-    <Notification message={errorMessage}/>
-    <Filter value={shown} handleFind={handleFind} />
-   
-
-    <h2>Add new contact</h2>
-
-    <PersonForm addPerson={addPerson} handleNameChange={handleNameChange} handleNumberChange={handleNumberChange} name={newName} number={newNumber} />
-
-    <h2>Numbers</h2>
-
-    <Names persons={persons} shown={shown} removeP={removeP}/>
-
-  </div>
-)
 }
 
 export default App
