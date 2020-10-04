@@ -25,6 +25,9 @@ const App = () => {
 
   const removeP = (id) => {
     console.log('pressing delete');
+    if (window.confirm('Do you want to delete '+ {id} + '?')) 
+     
+    
     setErrorMessage(`${persons.name} was deleted from phonebook!`)
     setTimeout(() => {
       setErrorMessage(null)
@@ -52,12 +55,18 @@ const App = () => {
       setErrorMessage(null)
     }, 5000)
 
-    if (persons.some(person => person.name === newName)) {
-      setErrorMessage(`${nameObject.name} is already in phonebook!`)
+    if (persons.some(person => person.name === newName && persons.number === newNumber)) 
+      {
+        setErrorMessage(`${nameObject.name} is already in phonebook!`)
       setTimeout(() => {
         setErrorMessage(null)
       }, 5000)
-    }
+      }
+     if (persons.some(person => person.name === newName && persons.number ==! newNumber)) 
+      {
+        window.confirm({nameObject.name}, 'Already in phonebook, do you wish to update their phonenumber?')
+      }
+      
     else {
       setPersons(persons.concat(nameObject))
 
