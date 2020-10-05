@@ -27,23 +27,22 @@ const App = () => {
     console.log('pressing delete');
     const p = persons.find(p => p.id === id)
     const r = (window.confirm(`Do you want to delete ${p.name}?`))
-    if (r === true){
-    setErrorMessage(`${p.name} was deleted from phonebook!`)
-    setTimeout(() => {
-      setErrorMessage(null)
-    }, 5000)
-    nameService
-    .remove(id)
-    .then(res => {
-      const del = persons.filter(person => id !== person.id)
-      console.log('deleting', id)
-      setPersons(del)
-    })}
-
-    else{
+    if (r === true) {
+      setErrorMessage(`${p.name} was deleted from phonebook!`)
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
+      nameService
+        .remove(id)
+        .then(res => {
+          const del = persons.filter(person => id !== person.id)
+          console.log('deleting', id)
+          setPersons(del)
+        })
+    }
+    else {
       return null
     }
-
   }
 
   const addPerson = (event) => {
@@ -59,18 +58,26 @@ const App = () => {
       setErrorMessage(null)
     }, 5000)
 
-    if (persons.some(person => person.name === newName))
-      {
-        setErrorMessage(`${nameObject.name} is already in phonebook!`)
+    if (persons.some(person => person.name === newName && person.number === newNumber)) {
+      setErrorMessage(`${nameObject.name} is already in phonebook!`)
       setTimeout(() => {
         setErrorMessage(null)
       }, 5000)
+    }
+    else if (persons.some(person => person.name === newName && persons.number !== newNumber)) {
+      const g = window.confirm(`${nameObject.name} is already in phonebook, do you wish to update their phonenumber?`)
+      if (g === true) {
+        nameService
+        .update(nameObject.number)
+        .then(res => {
+          setPersons(persons.concat(res))
+        })
       }
-    /* if (persons.some(person => person.name === newName && persons.number !== newNumber)) 
-      {
-        window.confirm({nameObject.name}, 'Already in phonebook, do you wish to update their phonenumber?')
-      }*/
-      
+      else {
+        return null
+      }
+    }
+
     else {
       setPersons(persons.concat(nameObject))
 
