@@ -25,21 +25,25 @@ const App = () => {
 
   const removeP = (id) => {
     console.log('pressing delete');
-    if (window.confirm('Do you want to delete '+ {id} + '?')) 
-     
-    
-    setErrorMessage(`${persons.name} was deleted from phonebook!`)
+    const p = persons.find(p => p.id === id)
+    const r = (window.confirm(`Do you want to delete ${p.name}?`))
+    if (r === true){
+    setErrorMessage(`${p.name} was deleted from phonebook!`)
     setTimeout(() => {
       setErrorMessage(null)
     }, 5000)
-
     nameService
-      .remove(id)
-      .then(res => {
-        const del = persons.filter(person => id !== person.id)
-        console.log('deleting', id)
-        setPersons(del)
-      })
+    .remove(id)
+    .then(res => {
+      const del = persons.filter(person => id !== person.id)
+      console.log('deleting', id)
+      setPersons(del)
+    })}
+
+    else{
+      return null
+    }
+
   }
 
   const addPerson = (event) => {
@@ -55,17 +59,17 @@ const App = () => {
       setErrorMessage(null)
     }, 5000)
 
-    if (persons.some(person => person.name === newName && persons.number === newNumber)) 
+    if (persons.some(person => person.name === newName))
       {
         setErrorMessage(`${nameObject.name} is already in phonebook!`)
       setTimeout(() => {
         setErrorMessage(null)
       }, 5000)
       }
-     if (persons.some(person => person.name === newName && persons.number ==! newNumber)) 
+    /* if (persons.some(person => person.name === newName && persons.number !== newNumber)) 
       {
         window.confirm({nameObject.name}, 'Already in phonebook, do you wish to update their phonenumber?')
-      }
+      }*/
       
     else {
       setPersons(persons.concat(nameObject))
