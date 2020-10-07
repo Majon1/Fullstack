@@ -54,7 +54,7 @@ const App = () => {
     const nameObject = {
       name: newName,
       number: newNumber,
-      id: persons.length + 1,
+      id: Math.random() < 0.5,
     }
 
     if (persons.some(person => person.name.toLowerCase() === newName.toLowerCase() && person.number === newNumber)) {
@@ -68,21 +68,27 @@ const App = () => {
       const g = window.confirm(`${nameObject.name} is already in phonebook, do you wish to update their phonenumber?`)
       if (g === true) {
         nameService
-      .update(num.id, nameObject)
-      .then(response => {
-        const update = persons.map(p => p.id !== num.id ? p : response)
-        setPersons(update)
-      })
-      setNotifications(`Phonenumber of ${nameObject.name} updated!`)
-      setTimeout(() => {
-        setNotifications(null)
-      }, 5000)
+          .update(num.id, nameObject)
+          .then(response => {
+            const update = persons.map(p => p.id !== num.id ? p : response)
+            setPersons(update)
+            setNotifications(`Phonenumber of ${nameObject.name} updated!`)
+            setTimeout(() => {
+              setNotifications(null)
+            }, 5000)
+          })
+          .catch(error => {
+            setPersons(persons.filter(n => n.id !== num.id))
+            setErrorMessage(`${nameObject.name} was already deleted from server!`)
+            setTimeout(() => {
+              setErrorMessage(null)
+            }, 5000)
+          })
       }
-
       else {
         return null
-      }}
-
+      }
+    }
     else {
       //  setPersons(persons.concat(nameObject))
       setNotifications(`${nameObject.name} was added to phonebook!`)
@@ -94,7 +100,6 @@ const App = () => {
         .then(returnedNote => {
           setPersons(persons.concat(returnedNote))
         })
-
     }
     setNewName('')
     setNewNumber('')
@@ -118,7 +123,6 @@ const App = () => {
       <NotificationError message={errorMessage} />
       <NotificationMessages message={notifications} />
       <Filter value={shown} handleFind={handleFind} />
-
 
       <h2>Add new contact</h2>
 
