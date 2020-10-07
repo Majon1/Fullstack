@@ -2,6 +2,7 @@ import React from 'react'
 
 
 const Names = ({ persons, shown, removeP }) => {
+  console.log('names');
   const filtering = persons.filter(person => person.name.toLowerCase().includes(shown.toLowerCase()))
 
   return (

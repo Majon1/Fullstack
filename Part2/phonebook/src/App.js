@@ -3,7 +3,9 @@ import Names from './components/Names'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import nameService from './services/names'
+import NotificationError from './components/NotificationError'
 import './index.css'
+import NotificationMessages from './components/NotificationMessages'
 
 
 const App = () => {
@@ -11,7 +13,8 @@ const App = () => {
   const [newName, setNewName] = useState('add new name...')
   const [newNumber, setNewNumber] = useState('add new number...')
   const [shown, setShown] = useState('')
-  const [errorMessage, setErrorMessage] = useState('')
+  const [errorMessage, setErrorMessage] = useState(null)
+  const [notifications, setNotifications] = useState(null)
 
   useEffect(() => {
     nameService
@@ -53,50 +56,48 @@ const App = () => {
       number: newNumber,
       id: persons.length + 1,
     }
-    setErrorMessage(`${nameObject.name} was added to phonebook!`)
-    setTimeout(() => {
-      setErrorMessage(null)
-    }, 5000)
 
-    if (persons.some(person => person.name === newName && person.number === newNumber)) {
+    if (persons.some(person => person.name.toLowerCase() === newName.toLowerCase() && person.number === newNumber)) {
       setErrorMessage(`${nameObject.name} is already in phonebook!`)
       setTimeout(() => {
         setErrorMessage(null)
       }, 5000)
     }
-    else if (persons.some(person => person.name === newName && persons.number !== newNumber)) {
+    else if (persons.some(person => person.name.toLowerCase() === newName.toLowerCase() && persons.number !== newNumber)) {
+      const num = persons.find(p => p.name.toLowerCase() === newName.toLowerCase())
       const g = window.confirm(`${nameObject.name} is already in phonebook, do you wish to update their phonenumber?`)
       if (g === true) {
         nameService
-        .update(nameObject.number)
-        .then(res => {
-          setPersons(persons.concat(res))
-        })
+      .update(num.id, nameObject)
+      .then(response => {
+        const update = persons.map(p => p.id !== num.id ? p : response)
+        setPersons(update)
+      })
+      setNotifications(`Phonenumber of ${nameObject.name} updated!`)
+      setTimeout(() => {
+        setNotifications(null)
+      }, 5000)
       }
+
       else {
         return null
-      }
-    }
+      }}
 
     else {
-      setPersons(persons.concat(nameObject))
-
+      //  setPersons(persons.concat(nameObject))
+      setNotifications(`${nameObject.name} was added to phonebook!`)
+      setTimeout(() => {
+        setNotifications(null)
+      }, 5000)
       nameService
         .create(nameObject)
         .then(returnedNote => {
           setPersons(persons.concat(returnedNote))
         })
-      setNewName('')
-      setNewNumber('')
+
     }
-  }
-  const Notification = ({ message }) => {
-    if (message === null) {
-      return null
-    }
-    return (
-      <div className="error">{message}</div>
-    )
+    setNewName('')
+    setNewNumber('')
   }
 
   const handleNameChange = (event) => {
@@ -111,11 +112,11 @@ const App = () => {
     setShown(event.target.value)
   }
 
-
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message={errorMessage} />
+      <NotificationError message={errorMessage} />
+      <NotificationMessages message={notifications} />
       <Filter value={shown} handleFind={handleFind} />
 
 
