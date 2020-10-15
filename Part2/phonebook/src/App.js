@@ -100,9 +100,6 @@ const App = () => {
         .then(returnedNote => {
           setPersons(persons.concat(returnedNote))
         })
-        .catch(error => {
-          console.log(error.response.data)
-        })
     }
     setNewName('')
     setNewNumber('')
