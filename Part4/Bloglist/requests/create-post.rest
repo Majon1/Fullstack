@@ -1,10 +1,9 @@
-
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
-    "title": "Dog Blog",
-    "author": "Alldogs",
-    "url": "the internet",
-    "likes": 254
+    "title": "Animals ForeverBlog",
+    "author": "abcd",
+    "url": "wwwwwwwww",
+    "likes": 258
 }
