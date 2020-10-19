@@ -10,7 +10,7 @@ Part 0 | 6 | 6 | 2
 Part 1 | 14 | 14 | 12
 Part 2 | 19 | 20 | 25  
 Part 3 |  | |    
-Part 4 |  | |     
+Part 4 | 5 | 22 |     
 Part 5 |  | |    
 Part 6 |  | |    
 Part 7 |  | |    
@@ -39,3 +39,5 @@ Part 10 |  | |
 - 2.12 - now filter the names!!
 - 2.18 - ~~number button works, not function~~
 - 2.19 - ~~updated message for already added, still need to complete 2.18 to update numbers~~
+
+- 4.5 - check if response value is right!
