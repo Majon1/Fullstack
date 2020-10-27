@@ -1,19 +1,6 @@
 const dummy = (blogs) => {
     return 1
 }
-const favoriteBlog = (array) => {
-let a = 0
-let t = 0
-for (let i = 0; i < array.length; i++)
-{
-    if (array[i].likes > a)
-    {
-        a = array[i].likes
-        t = i
-    }
-} 
-return array[t].title, array[t].author, array[t].likes
-}
 
 const totalLikes = (array) => {
     if (array.length === 0)
@@ -36,8 +23,26 @@ const totalLikes = (array) => {
     }
 }
 
+const favoriteBlog = (array) => {
+    let a = 0
+    let t = 0
+    for (let i = 0; i < array.length; i++)
+    {
+        if (array[i].likes > a)
+        {
+            a = array[i].likes
+            t = i
+        }
+    } 
+  /*  console.log(array[t].title)
+    console.log(array[t].author)
+    console.log(array[t].likes)*/
+    return array[t].title, array[t].author, array[t].likes
+    }
+    
+
 module.exports = {
     dummy,
     totalLikes,
-    favoriteBlog,
+    favoriteBlog
 }
