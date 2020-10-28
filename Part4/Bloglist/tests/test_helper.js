@@ -6,6 +6,12 @@ const initialNotes = [
         author: 'asda',
         url: 'www',
         likes: 2
+    },
+    {
+    title: 'b',
+        author: 'sa',
+        url: 'w',
+        likes: 32
     }
 ]
 
