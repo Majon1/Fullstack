@@ -72,23 +72,15 @@ const App = () => {
           setNotifications(null)
         }, 5000)
       })
-      .catch(error => {
-        if (error.resonse.data.error === undefined) {
-          setErrorMessage(`${person.name} was already deleted from server!`)
-          setTimeout(() => {
-            setErrorMessage(null)
-          }, 5000)
-        }
-        else {
-          setErrorMessage(error.response.data.error)
-          setTimeout(() => {
-            setNotifications(null)
-          }, 5000)
-        }
+      .catch(error => {	
+        setPersons(persons.filter(n => n.id !== num.id))	
+        setErrorMessage(`${person.name} was already deleted from server!`)	
+        setTimeout(() => {	
+          setErrorMessage(null)	
+        }, 5000)	
+      })
         setNewName('')
         setNewNumber('')
-
-      })
   }
 
   const addPerson = (event) => {
@@ -117,19 +109,11 @@ const App = () => {
       }
     }
     else {
-
-
       nameService
         .create(nameObject)
         .then(returnedNote => {
           setPersons(persons.concat(returnedNote))
           setNotifications(`${nameObject.name} was added to phonebook!`)
-          setTimeout(() => {
-            setNotifications(null)
-          }, 5000)
-        })
-        .catch(error => {
-          setErrorMessage(error.response.data.error)
           setTimeout(() => {
             setNotifications(null)
           }, 5000)
