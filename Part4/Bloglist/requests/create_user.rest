@@ -3,7 +3,7 @@ POST http://localhost:3003/api/users
 Content-Type: application/json
 
 {
-    "username": "Cats4EVER",
-    "name": "Anna Summer",
-    "password": "tomato"
+    "username": "ME",
+    "name": "IT'S ME",
+    "password": "me"
 }

@@ -91,7 +91,7 @@ describe('when there is initially one user in db', () => {
     await user.save()
   })
   
-  test('creation fails with proper statuscode and message if username already taken', async () => {
+  test('creation fails with proper statuscode and message if username is not valid', async () => {
     const usersAtStart = await helper.usersInDb()
 
     const newUser = {
@@ -106,7 +106,7 @@ describe('when there is initially one user in db', () => {
       .expect(400)
       .expect('Content-Type', /application\/json/)
 
-    expect(result.body.error).toContain('`username` to be unique')
+    expect(result.body.error).toContain('username must be longer than 3 characters!')
 
     const usersAtEnd = await helper.usersInDb()
     expect(usersAtEnd).toHaveLength(usersAtStart.length)
@@ -133,6 +133,7 @@ describe('when there is initially one user in db', () => {
     const usernames = usersAtEnd.map(u => u.username)
     expect(usernames).toContain(newUser.username)
   })
+})
 
 afterAll(() => {
   mongoose.connection.close()
