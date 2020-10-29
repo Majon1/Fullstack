@@ -31,21 +31,64 @@ const App = () => {
     const p = persons.find(p => p.id === id)
     const r = (window.confirm(`Do you want to delete ${p.name}?`))
     if (r === true) {
-      setErrorMessage(`${p.name} was deleted from phonebook!`)
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000)
       nameService
         .remove(id)
         .then(res => {
           const del = persons.filter(person => id !== person.id)
           console.log('deleting', id)
           setPersons(del)
+
+          setErrorMessage(`${p.name} was deleted from phonebook!`)
+          setTimeout(() => {
+            setErrorMessage(null)
+          }, 5000)
+        })
+        .catch(error => {
+          setErrorMessage(`${p.name} was already deleted from phonebook!`)
+          setTimeout(() => {
+            setErrorMessage(null)
+          }, 5000)
         })
     }
     else {
       return null
     }
+  }
+
+  const updateNumber = (person) => {
+    const num = persons.find(p => p.name.toLowerCase() === person.name.toLowerCase()).id
+    person = { ...person, id: num }
+
+    nameService
+      .update(num, person)
+      .then(response => {
+        const update = persons.map(p => p.id !== num ? p : response)
+        setPersons(update)
+        setNewName('')
+        setNewNumber('')
+
+        setNotifications(`Phonenumber of ${response.name} updated!`)
+        setTimeout(() => {
+          setNotifications(null)
+        }, 5000)
+      })
+      .catch(error => {
+        if (error.resonse.data.error === undefined) {
+          setErrorMessage(`${person.name} was already deleted from server!`)
+          setTimeout(() => {
+            setErrorMessage(null)
+          }, 5000)
+        }
+        else {
+          setErrorMessage(error.response.data.error)
+          setTimeout(() => {
+            setNotifications(null)
+          }, 5000)
+        }
+        setNewName('')
+        setNewNumber('')
+
+      })
   }
 
   const addPerson = (event) => {
@@ -64,41 +107,32 @@ const App = () => {
       }, 5000)
     }
     else if (persons.some(person => person.name.toLowerCase() === newName.toLowerCase() && persons.number !== newNumber)) {
-      const num = persons.find(p => p.name.toLowerCase() === newName.toLowerCase())
+
       const g = window.confirm(`${nameObject.name} is already in phonebook, do you wish to update their phonenumber?`)
       if (g === true) {
-        nameService
-          .update(num.id, nameObject)
-          .then(response => {
-            const update = persons.map(p => p.id !== num.id ? p : response)
-            setPersons(update)
-            setNotifications(`Phonenumber of ${nameObject.name} updated!`)
-            setTimeout(() => {
-              setNotifications(null)
-            }, 5000)
-          })
-          .catch(error => {
-            setPersons(persons.filter(n => n.id !== num.id))
-            setErrorMessage(`${nameObject.name} was already deleted from server!`)
-            setTimeout(() => {
-              setErrorMessage(null)
-            }, 5000)
-          })
+        updateNumber(nameObject)
       }
       else {
         return null
       }
     }
     else {
-      //  setPersons(persons.concat(nameObject))
-      setNotifications(`${nameObject.name} was added to phonebook!`)
-      setTimeout(() => {
-        setNotifications(null)
-      }, 5000)
+
+
       nameService
         .create(nameObject)
         .then(returnedNote => {
           setPersons(persons.concat(returnedNote))
+          setNotifications(`${nameObject.name} was added to phonebook!`)
+          setTimeout(() => {
+            setNotifications(null)
+          }, 5000)
+        })
+        .catch(error => {
+          setErrorMessage(error.response.data.error)
+          setTimeout(() => {
+            setNotifications(null)
+          }, 5000)
         })
     }
     setNewName('')
