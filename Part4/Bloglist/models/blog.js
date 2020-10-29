@@ -5,11 +5,11 @@ const mongoose = require('mongoose')
     title: {type: String, required: true},
     author: {type: String, required: true},
     url: {type: String, required: true},
-    likes: {type: Number},
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User'
-    }
+    },
+    likes: {type: Number}
   })
   blogSchema.set('toJSON', {
     transform: (document, returnedObject) => {
