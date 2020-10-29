@@ -1,9 +1,10 @@
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkNhdHM0RVZFUiIsImlkIjoiNWY5YWI3Y2Y2NjhkN2I0Y2EwZjA3ZWJhIiwiaWF0IjoxNjAzOTkxNzM0fQ.B-IehYq0N4ppoXbQghGOXdXHwd2nw_sXkZNHFKq6lAU
 
 {
-    "title": "Kitekat",
-    "author": "Tussi",
+    "title": "Friskies",
+    "author": "Wille",
     "url": "Home",
-    "likes": 29
+    "likes": 49
 }
