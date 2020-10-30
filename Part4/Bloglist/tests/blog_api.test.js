@@ -8,25 +8,25 @@ const api = supertest(app)
 const Blog = require('../models/blog')
 const User = require('../models/user')
 
-  beforeEach(async () => {
-    await Blog.deleteMany({})
-    for (let blog of helper.initialNotes) {
-      let blogObject = new Blog(blog)
-      await blogObject.save()
-    }
-  })
+beforeEach(async () => {
+  await Blog.deleteMany({})
+  for (let blog of helper.initialNotes) {
+    let blogObject = new Blog(blog)
+    await blogObject.save()
+  }
+})
 
-  test('correct amount of blogs', async () => {
-    const response = await api.get('/api/blogs')
+test('correct amount of blogs', async () => {
+  const response = await api.get('/api/blogs')
 
-    expect(response.body).toHaveLength(helper.initialNotes.length), ('Content-Type', /application\/json/)
-  })
+  expect(response.body).toHaveLength(helper.initialNotes.length), ('Content-Type', /application\/json/)
+})
 
-  test('unique value added', async () => {
-    const response = await api.get('/api/blogs')
+test('unique value added', async () => {
+  const response = await api.get('/api/blogs')
 
-    expect(response.body).toBeDefined()
-  })
+  expect(response.body).toBeDefined()
+})
 
 describe('addition of a new blog', () => {
   test('adds new post', async () => {
@@ -54,14 +54,14 @@ describe('addition of a new blog', () => {
     const newBlog = {
       likes: 2
     }
-  
+
     await api
       .post('/api/blogs')
       .send(newBlog)
       .expect(400)
-  
+
     const blogsAtEnd = await helper.blogsInDb()
-  
+
     expect(blogsAtEnd).toHaveLength(helper.initialNotes.length)
   })
 
@@ -73,11 +73,11 @@ describe('addition of a new blog', () => {
       likes: null
     }
     await api
-    .post('/api/blogs')
-    .send(likesZero)
-    .expect(400)
-  
-   expect(likesZero.likes).toBeDefined()
+      .post('/api/blogs')
+      .send(likesZero)
+      .expect(400)
+
+    expect(likesZero.likes).toBeDefined()
   })
 })
 
@@ -90,7 +90,7 @@ describe('when there is initially one user in db', () => {
 
     await user.save()
   })
-  
+
   test('creation fails with proper statuscode and message if username is not valid', async () => {
     const usersAtStart = await helper.usersInDb()
 

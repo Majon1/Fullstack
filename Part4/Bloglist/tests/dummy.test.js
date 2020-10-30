@@ -38,12 +38,12 @@ describe('total likes', () => {
       likes: 5,
       __v: 0
     },
-    { _id: "5a422bc61b54a676234d17fc", 
-    title: "Type wars", 
-    author: "Robert C. Martin", 
-    url: "http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html", 
-    likes: 2, 
-    __v: 0 }
+    { _id: '5a422bc61b54a676234d17fc',
+      title: 'Type wars',
+      author: 'Robert C. Martin',
+      url: 'http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html',
+      likes: 2,
+      __v: 0 }
   ]
   test('of a bigger list is calculated right', () => {
     const result = listHelper.totalLikes(moreThanOne)
@@ -61,13 +61,13 @@ describe('most likes', () => {
       likes: 5,
       __v: 0
     },
-    { _id: "5a422bc61b54a676234d17fc", 
-    title: "Type wars", 
-    author: "Robert C. Martin", 
-    url: "http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html", 
-    likes: 2, 
-    __v: 0 
-  }
+    { _id: '5a422bc61b54a676234d17fc',
+      title: 'Type wars',
+      author: 'Robert C. Martin',
+      url: 'http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html',
+      likes: 2,
+      __v: 0
+    }
 
   ]
   test('most liked blog', () => {

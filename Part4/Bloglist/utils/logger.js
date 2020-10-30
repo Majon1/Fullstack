@@ -10,4 +10,4 @@ const error = (...params) => { //print errors
 
 module.exports = {
   info, error
-} 
+}
