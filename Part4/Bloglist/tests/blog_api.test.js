@@ -50,8 +50,9 @@ describe('addition of a new blog', () => {
       'async/await simplifies making async calls'
     )
   })
-  test('blog without title or author is not added', async () => {
+  test('blog without title or url is not added', async () => {
     const newBlog = {
+      author: 'test',
       likes: 2
     }
 
@@ -60,7 +61,7 @@ describe('addition of a new blog', () => {
       .send(newBlog)
       .expect(400)
 
-    const blogsAtEnd = await helper.blogsInDb()
+    const blogsAtEnd = await Blog.find({})//helper.blogsInDb()
 
     expect(blogsAtEnd).toHaveLength(helper.initialNotes.length)
   })
