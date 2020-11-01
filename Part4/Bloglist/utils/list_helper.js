@@ -31,14 +31,19 @@ const favoriteBlog = (array) => {
       t = i
     }
   }
-  /*  console.log(array[t].title)
-      console.log(array[t].author)
-      console.log(array[t].likes)*/
-  return array[t].title, array[t].author, array[t].likes
+  console.log(array[t].title)
+  console.log(array[t].author)
+  console.log(array[t].likes)
+  return array[t].likes
 }
 
 const mostBlogs = (array) => {
-_.countBy(array, )
+  const most = _(array)
+    .countBy('author')
+    .entries('title')
+    .maxBy(_.last)
+  console.log(most[0], most[1])
+  return (most[1])
 }
 
 module.exports = {
