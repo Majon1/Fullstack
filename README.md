@@ -19,9 +19,9 @@ Part 9 |  | |
 Part 10 |  | |    
 
 ### Submitted
-- [ x ] Part 0
-- [ x ] Part 1
-- [ x ] Part 2
+- [x] Part 0
+- [x] Part 1
+- [x] Part 2
 - [ ] Part 3
 - [ ] Part 4
 - [ ] Part 5
