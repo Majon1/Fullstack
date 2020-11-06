@@ -7,6 +7,7 @@ const api = supertest(app)
 
 const Blog = require('../models/blog')
 const User = require('../models/user')
+const { initialNotes } = require('./test_helper')
 
 beforeEach(async () => {
   await Blog.deleteMany({})
@@ -46,15 +47,14 @@ test('likes exists', async () => {
     title: 'hello world',
     author: 'you',
     url: 'web',
-    likes: null
   }
   await api
     .post('/api/blogs')
     .send(likesZero)
     .expect(200)
 
-  const notesAtEnd = await helper.blogsInDb()
-  expect(notesAtEnd.length.likes).toBe(0)
+  const blog = await helper.blogsInDb()
+  expect(blog[initialNotes.length].likes).toBe(0)
 })
 
 describe('addition of a new blog', () => {
@@ -120,7 +120,7 @@ describe('when there is initially one user in db', () => {
       .expect(400)
       .expect('Content-Type', /application\/json/)
 
-    expect(result.body.error).toContain('username must be longer than 3 characters!')
+    expect(result.body.error).toContain('`username` to be unique')
 
     const usersAtEnd = await helper.usersInDb()
     expect(usersAtEnd).toHaveLength(usersAtStart.length)

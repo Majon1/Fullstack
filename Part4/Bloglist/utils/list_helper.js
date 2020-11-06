@@ -4,22 +4,11 @@ const dummy = () => {
   return 1
 }
 
-const totalLikes = (array) => {
-  if (array.length === 0) {
-    return array.length === 0
-      ? 0
-      : array.reduce(reducer, 0) / array.length
+const totalLikes = (arrays) => {
+  const reducer = (sum, array) => {
+    return sum + array.likes
   }
-  if (array.length === 1) {
-    return array[0].likes
-  }
-  if (array.length > 1) {
-    let sum = 0
-    for (let i = 0; i < array.length; i++) {
-      sum += array[i].likes
-    }
-    return sum
-  }
+  return arrays.reduce(reducer, 0)
 }
 
 const favoriteBlog = (array) => {
@@ -37,13 +26,32 @@ const favoriteBlog = (array) => {
   return array[t].likes
 }
 
-const mostBlogs = (array) => {
-  const most = _(array)
-    .countBy('author')
-    .entries('title')
-    .maxBy(_.last)
-  console.log(most[0], most[1])
-  return (most[1])
+const mostBlogs = (blogs) => {
+  const groupedByAuthor = _.groupBy(blogs, blog => blog.author)
+  const authors = []
+  _.forEach(groupedByAuthor, (authorBlogs, author) => {
+    authors.push({
+      author: author,
+      blogs: authorBlogs.length
+    })
+  })
+
+  const sortedAuthorList = _.sortBy(authors, author => author.blogs)
+  return sortedAuthorList.pop()
+}
+
+const mostLikedAuthor = (blogs) => {
+  const groupedByAuthor = _.groupBy(blogs, blog => blog.author)
+  const authors = []
+  _.forEach(groupedByAuthor, (authorBlogs, author) => {
+    authors.push({
+      author: author,
+      likes: totalLikes(authorBlogs)
+    })
+  })
+
+  const sortedAuthorList = _.sortBy(authors, author => author.likes)
+  return sortedAuthorList.pop()
 }
 
 module.exports = {
@@ -51,4 +59,5 @@ module.exports = {
   totalLikes,
   favoriteBlog,
   mostBlogs,
+  mostLikedAuthor
 }
