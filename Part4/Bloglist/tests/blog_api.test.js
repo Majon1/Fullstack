@@ -15,17 +15,46 @@ beforeEach(async () => {
     await blogObject.save()
   }
 })
+test('blogs are returned as json', async () => {
+  await api
+    .get('/api/blogs')
+    .expect(200)
+    .expect('Content-Type', /application\/json/)
+})
 
 test('correct amount of blogs', async () => {
   const response = await api.get('/api/blogs')
 
-  expect(response.body).toHaveLength(helper.initialNotes.length), ('Content-Type', /application\/json/)
+  expect(response.body).toHaveLength(helper.initialNotes.length)
 })
 
 test('unique value added', async () => {
   const response = await api.get('/api/blogs')
 
   expect(response.body).toBeDefined()
+})
+
+test('not _id', async () => {
+  const response = await api
+    .get('/api/blogs')
+
+  expect(response.body[0].id).toBeDefined()
+})
+
+test('likes exists', async () => {
+  const likesZero = {
+    title: 'hello world',
+    author: 'you',
+    url: 'web',
+    likes: null
+  }
+  await api
+    .post('/api/blogs')
+    .send(likesZero)
+    .expect(200)
+
+  const notesAtEnd = await helper.blogsInDb()
+  expect(notesAtEnd.length.likes).toBe(0)
 })
 
 describe('addition of a new blog', () => {
@@ -61,24 +90,8 @@ describe('addition of a new blog', () => {
       .send(newBlog)
       .expect(400)
 
-    const blogsAtEnd = await Blog.find({})//helper.blogsInDb()
-
+    const blogsAtEnd = await helper.blogsInDb()
     expect(blogsAtEnd).toHaveLength(helper.initialNotes.length)
-  })
-
-  test('likes exists', async () => {
-    const likesZero = {
-      title: String,
-      author: String,
-      url: String,
-      likes: null
-    }
-    await api
-      .post('/api/blogs')
-      .send(likesZero)
-      .expect(400)
-
-    expect(likesZero.likes).toBeDefined()
   })
 })
 
