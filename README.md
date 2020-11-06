@@ -9,8 +9,8 @@ Part | Exercises | / total | Hours
 Part 0 | 6 | 6 | 2
 Part 1 | 14 | 14 | 12
 Part 2 | 19 | 20 | 25  
-Part 3 |  | |    
-Part 4 | 5 | 22 |     
+Part 3 | 22 | 22 | 35   
+Part 4 | 5 | 22 |  
 Part 5 |  | |    
 Part 6 |  | |    
 Part 7 |  | |    
@@ -22,22 +22,13 @@ Part 10 |  | |
 - [x] Part 0
 - [x] Part 1
 - [x] Part 2
-- [ ] Part 3
+- [x] Part 3
 - [ ] Part 4
 - [ ] Part 5
 - [ ] Part 6
 - [ ] Part 7
 - [ ] Part 8
-- [ ] Part 9
-- [ ] Part 10
 
 ###Notes
-- 1.11 - ~~html not showing %-sign~~
-- 2.6 - ~~works when usid ID~~
-- 2.7 - ~~cannot figure out how to find IF CONTAINS~~, managed to get alert and IF to work
-- 2.9 - ~~filter not working correctly~~
-- 2.12 - now filter the names!!
-- 2.18 - ~~number button works, not function~~
-- 2.19 - ~~updated message for already added, still need to complete 2.18 to update numbers~~
 
 - 4.5 - check if response value is right!
