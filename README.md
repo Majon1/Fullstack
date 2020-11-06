@@ -10,7 +10,7 @@ Part 0 | 6 | 6 | 2
 Part 1 | 14 | 14 | 12
 Part 2 | 19 | 20 | 25  
 Part 3 | 22 | 22 | 35   
-Part 4 | 5 | 22 |  
+Part 4 | 20 | 22 | 35
 Part 5 |  | |    
 Part 6 |  | |    
 Part 7 |  | |    
