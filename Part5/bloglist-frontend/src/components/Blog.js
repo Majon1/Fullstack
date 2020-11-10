@@ -1,4 +1,6 @@
-import React from 'react'
+import React, { useRef } from 'react'
+import View from './ViewBlogs'
+
 const Blog = ({ blog }) => {
   const blogStyle = {
     paddingTop: 10,
@@ -8,12 +10,14 @@ const Blog = ({ blog }) => {
     marginBottom: 5
   }
 
+  const blogRef = useRef()
   return (
     <div style={blogStyle}>
-  <div>
-    {blog.title} {blog.author}
-  </div>
-  </div>
-)}
+      <div>
+  {blog.title} {blog.author} <View ref={blogRef}><p>{blog.url}</p><p>likes: {blog.likes}</p><p>{blog.user.name}</p></View>
+      </div>
+    </div>
+  )
+}
 
 export default Blog
