@@ -6,6 +6,7 @@ import NotificationError from './components/NotificationError'
 import './index.css'
 import NotificationMessages from './components/NotificationMessages'
 import BlogForm from './components/BlogForm'
+import LoginForm from './components/LoginForm'
 import Togglable from './components/Togglable'
 
 
@@ -37,41 +38,42 @@ const App = () => {
     const moreLikes = blogs.find(blog => blog.id === id)
     blogService
       .update(id, blogObject)
-      .then(returnedBlog => { returnedBlog.id = moreLikes.user 
+      .then(returnedBlog => {
+        returnedBlog.id = moreLikes.user
         setBlogs(blogs.map(blog => blog.id !== id ? blog : returnedBlog))
       })
       .catch(error => {
-        console.log("An error occured", error)
-        setErrorMessage(`Could not like post!`)
+        console.log('An error occured', error)
+        setErrorMessage('Could not like post!')
         setTimeout(() => {
           setErrorMessage(null)
         }, 5000)
       })
-      setNotifications(`Like added to post!`)
-      setTimeout(() => {
-        setNotifications(null)
-      }, 5000)
+    setNotifications('Like added to post!')
+    setTimeout(() => {
+      setNotifications(null)
+    }, 5000)
   }
   const removeBlog = (id) => {
     const post = blogs.find(blog => blog.id === id)
     const alert = (window.confirm(`Do you want to delete ${post.title}?`))
     if (alert === true) {
       blogService
-      .remove(id)
-      .then(response => {
-        const del = blogs.filter(blog => id !== blog.id)
-        setBlogs(del)
-        setErrorMessage(`${post.title} deleted!`)
-        console.log('removed blog')
-        setTimeout(() => {
-          setErrorMessage(null)
-        }, 5000)
-      })
+        .remove(id)
+        .then(() => {
+          const del = blogs.filter(blog => id !== blog.id)
+          setBlogs(del)
+          setErrorMessage(`${post.title} deleted!`)
+          console.log('removed blog')
+          setTimeout(() => {
+            setErrorMessage(null)
+          }, 5000)
+        })
     }
-      else {
-        return null
-      }
+    else {
+      return null
     }
+  }
 
   const addBlog = (blogObject) => {
     blogFormRef.current.toggleVisibility()
@@ -91,7 +93,7 @@ const App = () => {
     window.localStorage.clear()
     blogService.setToken(null)
     setUser(null)
-    setNotifications(`Logged out!`)
+    setNotifications('Logged out!')
     setTimeout(() => {
       setNotifications(null)
     }, 5000)
@@ -123,27 +125,15 @@ const App = () => {
   }
 
   const loginForm = () => (
-    <form onSubmit={handleLogin}>
-      <div>
-        username
-            <input
-          type="text"
-          value={username}
-          name="Username"
-          onChange={({ target }) => setUsername(target.value)}
-        />
-      </div>
-      <div>
-        password
-            <input
-          type="password"
-          value={password}
-          name="Password"
-          onChange={({ target }) => setPassword(target.value)}
-        />
-      </div>
-      <button type="submit">login</button>
-    </form>
+    <Togglable buttonLabel='login'>
+      <LoginForm
+        username={username}
+        password={password}
+        handleUsernameChange={({ target }) => setUsername(target.value)}
+        handlePasswordChange={({ target }) => setPassword(target.value)}
+        handleSubmit={handleLogin}
+      />
+    </Togglable>
   )
   const blogFormRef = useRef()
 
@@ -153,9 +143,9 @@ const App = () => {
       />
     </Togglable>
   )
-    const sortByLikes = (blogs) => {
-      return blogs.sort((a,b) => b.likes - a.likes)
-    }
+  const sortByLikes = (blogs) => {
+    return blogs.sort((a, b) => b.likes - a.likes)
+  }
 
   return (
     <div>
@@ -175,7 +165,7 @@ const App = () => {
 
           <h2>Blogs</h2>
           {sortByLikes(blogs).map(blog =>
-            <Blog key={blog.id} blog={blog} addLike={addLike} user={user} removeBlog={removeBlog}/>
+            <Blog key={blog.id} blog={blog} addLike={addLike} user={user} removeBlog={removeBlog} />
           )}
         </div>
       }

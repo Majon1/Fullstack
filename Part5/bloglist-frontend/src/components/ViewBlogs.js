@@ -11,9 +11,9 @@ const View = React.forwardRef((props, ref) => {
   }
 
   useImperativeHandle(ref, () => {
-      return {
-          toggleVisibility
-      }
+    return {
+      toggleVisibility
+    }
   })
 
   return (
@@ -23,10 +23,11 @@ const View = React.forwardRef((props, ref) => {
       </div>
       <div style={showWhenVisible}>
         {props.children}
-  <button onClick={toggleVisibility}>hide</button>
+        <button onClick={toggleVisibility}>hide</button>
       </div>
     </div>
   )
 })
+View.displayName = 'View'
 
 export default View
