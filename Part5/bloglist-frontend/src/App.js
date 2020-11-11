@@ -17,7 +17,7 @@ const App = () => {
   const [errorMessage, setErrorMessage] = useState(null)
   const [notifications, setNotifications] = useState(null)
 
- 
+
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs(blogs)
@@ -32,6 +32,46 @@ const App = () => {
       blogService.setToken(user.token)
     }
   }, [])
+
+  const addLike = (id, blogObject) => {
+    const moreLikes = blogs.find(blog => blog.id === id)
+    blogService
+      .update(id, blogObject)
+      .then(returnedBlog => { returnedBlog.id = moreLikes.user 
+        setBlogs(blogs.map(blog => blog.id !== id ? blog : returnedBlog))
+      })
+      .catch(error => {
+        console.log("An error occured", error)
+        setErrorMessage(`Could not like post!`)
+        setTimeout(() => {
+          setErrorMessage(null)
+        }, 5000)
+      })
+      setNotifications(`Like added to post!`)
+      setTimeout(() => {
+        setNotifications(null)
+      }, 5000)
+  }
+  const removeBlog = (id) => {
+    const post = blogs.find(blog => blog.id === id)
+    const alert = (window.confirm(`Do you want to delete ${post.title}?`))
+    if (alert === true) {
+      blogService
+      .remove(id)
+      .then(response => {
+        const del = blogs.filter(blog => id !== blog.id)
+        setBlogs(del)
+        setErrorMessage(`${post.title} deleted!`)
+        console.log('removed blog')
+        setTimeout(() => {
+          setErrorMessage(null)
+        }, 5000)
+      })
+    }
+      else {
+        return null
+      }
+    }
 
   const addBlog = (blogObject) => {
     blogFormRef.current.toggleVisibility()
@@ -82,7 +122,6 @@ const App = () => {
     }
   }
 
-
   const loginForm = () => (
     <form onSubmit={handleLogin}>
       <div>
@@ -114,6 +153,9 @@ const App = () => {
       />
     </Togglable>
   )
+    const sortByLikes = (blogs) => {
+      return blogs.sort((a,b) => b.likes - a.likes)
+    }
 
   return (
     <div>
@@ -132,12 +174,11 @@ const App = () => {
           {blogForm()}
 
           <h2>Blogs</h2>
-          {blogs.map(blog =>
-            <Blog key={blog.id} blog={blog} />
+          {sortByLikes(blogs).map(blog =>
+            <Blog key={blog.id} blog={blog} addLike={addLike} user={user} removeBlog={removeBlog}/>
           )}
         </div>
       }
-
     </div>
   )
 }
