@@ -13,14 +13,16 @@ const Blog = ({ blog, addLike, user, removeBlog }) => {
     borderWidth: 1,
     marginBottom: 5
   }
+
   const remove = () => {
-    if (blog.user.name === user.name) {
+    if (blog.user === user) {
       return <button onClick={() => { removePost() }}>Delete</button>
     }
     else {
       return null
     }
   }
+
   const removePost = () => {
     const rem = {
       user: blog.user.id,
@@ -44,15 +46,14 @@ const Blog = ({ blog, addLike, user, removeBlog }) => {
   return (
     <div style={blogStyle} className='blog'>
       <div style={hideWhenVisible} className='first'>
-        <p className='title'> {blog.title} {blog.author}<button onClick={() => setVisible(true)}>View</button></p>
+        <p className='title'> {blog.title} {blog.author}<button onClick={() => setVisible(true)}>view</button></p>
       </div>
       <div style={showWhenVisible} className='toggleView'>
-        <p className='title'> {blog.title} {blog.author}</p>
         <p>{blog.title}</p>
         <p> {blog.author}</p>
         <p>{blog.url}</p>
         <p>likes: {blog.likes} <button onClick={() => { add() }}>like</button></p>
-        <p>{blog.user.name}</p>{remove()}
+        <p>{blog.user}</p>{remove()}
         <button onClick={() => setVisible(false)}>Hide</button>
       </div>
     </div >
