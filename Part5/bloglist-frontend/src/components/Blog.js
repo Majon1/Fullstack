@@ -48,12 +48,14 @@ const Blog = ({ blog, addLike, user, removeBlog }) => {
       <div style={hideWhenVisible} className='first'>
         <p className='title'> {blog.title} {blog.author}<button onClick={() => setVisible(true)}>view</button></p>
       </div>
-      <div style={showWhenVisible} className='toggleView'>
-        <p>{blog.title}</p>
-        <p> {blog.author}</p>
-        <p>{blog.url}</p>
-        <p>likes: {blog.likes} <button onClick={() => { add() }}>like</button></p>
-        <p>{blog.user}</p>{remove()}
+      <div style={showWhenVisible}>
+        <div className='toggleView'>
+          <p>{blog.title}</p>
+          <p> {blog.author}</p>
+          <p>{blog.url}</p>
+          <p>likes: {blog.likes} <button onClick={() => { add() }}>like</button></p>
+        </div>
+        <p>{blog.user.name}</p>{remove()}
         <button onClick={() => setVisible(false)}>Hide</button>
       </div>
     </div >
