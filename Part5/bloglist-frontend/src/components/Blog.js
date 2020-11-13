@@ -1,7 +1,11 @@
-import React, { useRef } from 'react'
-import View from './ViewBlogs'
+import React, { useState } from 'react'
 
 const Blog = ({ blog, addLike, user, removeBlog }) => {
+  const [visible, setVisible] = useState(false)
+
+  const hideWhenVisible = { display: visible ? 'none' : '' }
+  const showWhenVisible = { display: visible ? '' : 'none' }
+
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -11,7 +15,7 @@ const Blog = ({ blog, addLike, user, removeBlog }) => {
   }
   const remove = () => {
     if (blog.user.name === user.name) {
-      return <button onClick={() => {removePost()}}>Delete</button>
+      return <button onClick={() => { removePost() }}>Delete</button>
     }
     else {
       return null
@@ -37,16 +41,21 @@ const Blog = ({ blog, addLike, user, removeBlog }) => {
     addLike(newLike.id, newLike)
   }
 
-  const blogRef = useRef()
   return (
-    <div style={blogStyle}>
-      <div>
-        {blog.title} {blog.author}
-        <View ref={blogRef}><p>{blog.url}</p>
-          <p>likes: {blog.likes} <button onClick={() => { add() }}>like</button></p>
-          <p>{blog.user.name}</p>{ remove() }</View>
+    <div style={blogStyle} className='blog'>
+      <div style={hideWhenVisible} className='first'>
+        <p className='title'> {blog.title} {blog.author}<button onClick={() => setVisible(true)}>View</button></p>
       </div>
-    </div>
+      <div style={showWhenVisible} className='toggleView'>
+        <p className='title'> {blog.title} {blog.author}</p>
+        <p>{blog.title}</p>
+        <p> {blog.author}</p>
+        <p>{blog.url}</p>
+        <p>likes: {blog.likes} <button onClick={() => { add() }}>like</button></p>
+        <p>{blog.user.name}</p>{remove()}
+        <button onClick={() => setVisible(false)}>Hide</button>
+      </div>
+    </div >
   )
 }
 
