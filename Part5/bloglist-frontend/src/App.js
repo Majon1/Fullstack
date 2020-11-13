@@ -39,7 +39,7 @@ const App = () => {
     blogService
       .update(id, blogObject)
       .then(returnedBlog => {
-        returnedBlog.id = moreLikes.user
+        returnedBlog.user = moreLikes.user
         setBlogs(blogs.map(blog => blog.id !== id ? blog : returnedBlog))
       })
       .catch(error => {
