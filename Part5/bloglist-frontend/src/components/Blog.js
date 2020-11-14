@@ -17,7 +17,7 @@ const Blog = ({ blog, addLike, user, removeBlog }) => {
   const remove = () => {
 
     if (blog.user.name === user) {
-      return <button onClick={() => { removePost() }}>Delete</button>
+      return <button id="remove" onClick={() => { removePost() }}>Delete</button>
     }
     else {
       return null

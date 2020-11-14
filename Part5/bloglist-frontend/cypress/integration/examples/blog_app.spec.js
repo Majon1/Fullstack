@@ -64,7 +64,14 @@ describe('Blog app', function () {
         cy.createBlog({
           title: 'a blog created by cypress',
           author: 'nobody',
-          url: 'wwweb'
+          url: 'wwweb',
+          likes: 2
+        })
+        cy.createBlog({
+          title: 'a second blog',
+          author: 'cypress',
+          url: 'web',
+          likes: 0
         })
       })
       it('a blog can be liked', function () {
@@ -75,6 +82,21 @@ describe('Blog app', function () {
           .and('have.css', 'color', 'rgb(0, 128, 0)')
           .and('have.css', 'border-style', 'solid')
       })
+
+      it('a blog can be deleted', function () {
+        cy.get('#view').click()
+        cy.get('#remove').click()
+        cy.get('.error')
+          .should('contain', 'a blog created by cypress deleted!')
+          .and('have.css', 'color', 'rgb(255, 0, 0)')
+          .and('have.css', 'border-style', 'solid')
+      })
+
+      it('blogs are ordered according to likes', function () {
+        cy.contains('a blog created by cypress')
+        cy.contains('a second blog')
+      })
+
     })
   })
 })
