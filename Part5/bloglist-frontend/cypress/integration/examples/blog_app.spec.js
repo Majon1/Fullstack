@@ -15,24 +15,6 @@ describe('Blog app', function () {
     cy.contains('login')
   })
 
-  describe.only('When logged in', function() {
-    beforeEach(function() {
-      cy.get('input:first').type('willi')
-      cy.get('input:last').type('food')
-      cy.get('#login-button').click()
-    })
-
-    it('A blog can be created', function() {
-      cy.contains('Create new post').click()
-      cy.get('#title').type('a blog created by cypress')
-      cy.get('#author').type('nobody')
-      cy.get('#url').type('wwweb')
-      cy.get('#newBlog').click()
-      cy.contains('A new blog: a blog created by cypress, by:nobody added!')
-      cy.contains('a blog created by cypress')
-    })
-  })
-
   describe('Login', function () {
     it('succeeds with correct credentials', function () {
       cy.get('input:first').type('willi')
@@ -40,6 +22,10 @@ describe('Blog app', function () {
       cy.contains('login').click()
 
       cy.contains('Wille Cat logged in')
+      cy.get('.notification')
+        .should('contain', 'Welcome Wille Cat')
+        .and('have.css', 'color', 'rgb(0, 128, 0)')
+        .and('have.css', 'border-style', 'solid')
     })
     it('fails with wrong credentials', function () {
       cy.get('input:first').type('tusse')
@@ -55,4 +41,40 @@ describe('Blog app', function () {
     })
   })
 
+  describe('When logged in', function () {
+    beforeEach(function () {
+      cy.login({ username: 'willi', password: 'food' })
+    })
+
+    it('A blog can be created', function () {
+      cy.contains('Create new post').click()
+      cy.get('#title').type('a blog created by cypress')
+      cy.get('#author').type('nobody')
+      cy.get('#url').type('wwweb')
+      cy.get('#newBlog').click()
+      cy.contains('a blog created by cypress')
+
+      cy.get('.notification')
+        .should('contain', 'A new blog: a blog created by cypress, by:nobody added!')
+        .and('have.css', 'color', 'rgb(0, 128, 0)')
+        .and('have.css', 'border-style', 'solid')
+    })
+    describe('and a blog exists', function () {
+      beforeEach(function () {
+        cy.createBlog({
+          title: 'a blog created by cypress',
+          author: 'nobody',
+          url: 'wwweb'
+        })
+      })
+      it('a blog can be liked', function () {
+        cy.get('#view').click()
+        cy.get('#like').click()
+        cy.get('.notification')
+          .should('contain', 'Like added to post!')
+          .and('have.css', 'color', 'rgb(0, 128, 0)')
+          .and('have.css', 'border-style', 'solid')
+      })
+    })
+  })
 })
