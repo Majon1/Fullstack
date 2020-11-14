@@ -13,10 +13,10 @@ const Blog = ({ blog, addLike, user, removeBlog }) => {
     borderWidth: 1,
     marginBottom: 5
   }
-  /*
+
   const remove = () => {
 
-    if (blog.user.name === user.name) {
+    if (blog.user.name === user) {
       return <button onClick={() => { removePost() }}>Delete</button>
     }
     else {
@@ -30,7 +30,7 @@ const Blog = ({ blog, addLike, user, removeBlog }) => {
       id: blog.id
     }
     removeBlog(rem.id, rem)
-  }*/
+  }
 
   const add = () => {
     const newLike = {
@@ -56,11 +56,10 @@ const Blog = ({ blog, addLike, user, removeBlog }) => {
           <p>{blog.url}</p>
           <p>likes: {blog.likes} <button id="like" onClick={() => {add()}}>like</button></p>
         </div>
-        <p>{blog.user.name}</p>
+        <p>{blog.user.name}</p> {remove()}
         <button onClick={() => setVisible(false)}>Hide</button>
       </div></div >
   )
 }
 
 export default Blog
-//{remove()}

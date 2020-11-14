@@ -6,7 +6,6 @@ import Blog from './Blog'
 
 describe('show blogscontent', () => {
   let component
-  
 
   const blog = {
     title: 'blog',
@@ -41,14 +40,14 @@ describe('show blogscontent', () => {
       <div>
         <Blog blog={blog}>
           <div className='toggleView'>
-            title, author, url, user, likes
+            title, author, url, likes
           </div>
         </Blog >
       </div >)
     //component.debug()
 
     expect(component.container).toHaveTextContent(
-      'blog', 'blogger', 'www', 'mee', 2)
+      'blog', 'blogger', 'www', 2)
   })
 
   test('clicking twice', async () => {
