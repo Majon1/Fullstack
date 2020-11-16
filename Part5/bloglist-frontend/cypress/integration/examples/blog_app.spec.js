@@ -92,11 +92,20 @@ describe('Blog app', function () {
           .and('have.css', 'border-style', 'solid')
       })
 
-      it('blogs are ordered according to likes', function () {
+      it.only('blogs are ordered according to likes', function () {
         cy.contains('a blog created by cypress')
-        cy.contains('a second blog')
-      })
+        cy.get('#view').click()
+        cy.get('#like').click()
+        cy.get('#hide').click()
 
+        cy.contains('a second blog').parent().find('#view').as('liker')
+        cy.get('@liker').click()
+        cy.contains('a second blog').parent().find('#like').as('liker')
+        cy.get('@liker').click()
+        cy.get('@liker').click()
+        cy.get('@liker').click()
+        cy.get('@liker').click()
+      })
     })
   })
 })

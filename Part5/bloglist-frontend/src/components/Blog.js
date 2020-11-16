@@ -57,7 +57,7 @@ const Blog = ({ blog, addLike, user, removeBlog }) => {
           <p>likes: {blog.likes} <button id="like" onClick={() => {add()}}>like</button></p>
         </div>
         <p>{blog.user.name}</p> {remove()}
-        <button onClick={() => setVisible(false)}>Hide</button>
+        <button id="hide" onClick={() => setVisible(false)}>Hide</button>
       </div></div >
   )
 }
