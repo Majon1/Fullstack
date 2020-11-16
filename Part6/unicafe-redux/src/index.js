@@ -11,22 +11,25 @@ const App = () => {
     store.dispatch({
       type: 'GOOD'
     })
-    console.log(store.getState())
+   console.log(store.getState())
   }
   const ok = () => {
     store.dispatch({
       type: 'OK'
     })
+    console.log(store.getState())
   }
   const bad = () => {
     store.dispatch({
       type: 'BAD'
     })
+    console.log(store.getState())
   }
   const resetStats = () => {
     store.dispatch({
       type: 'ZERO'
     })
+    console.log(store.getState())
   }
 
   return (
