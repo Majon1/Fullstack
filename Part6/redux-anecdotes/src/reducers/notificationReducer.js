@@ -8,7 +8,7 @@ const notificationReducer = (state = initialState, action) => {
       newState = action.notification
       return newState
     case 'CLEAR_MESSAGE':
-       return state
+       return ''
 
     default:
       return state
@@ -20,9 +20,8 @@ export const setMessage = (notification) => ({
   
 })
 
-export const clearMessage = (notification) => ({
+export const clearMessage = () => ({
   type: 'CLEAR_MESSAGE',
-  notification
 })
 
 export default notificationReducer

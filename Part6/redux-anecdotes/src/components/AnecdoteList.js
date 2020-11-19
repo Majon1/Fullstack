@@ -8,16 +8,15 @@ const AnecdoteList = () => {
   const filter = useSelector(state => state.filter)
   const dispatch = useDispatch()
 
-  const clear = () => 
-  dispatch(clearMessage(''))
-
   const vote = async (id, content) => {
     console.log('vote', id)
     const votesToAdd = anecdotes.find(n => n.id === id)
     const changedVote = { ...votesToAdd, votes: votesToAdd.votes + 1 }
     dispatch(addVote(id, changedVote))
     dispatch(setMessage(`You voted on "${content}"`))
-    setTimeout(clear, 5000)
+    setTimeout(() => { 
+      dispatch(clearMessage())
+    }, 5000)
   }
 
   const filtering = () => {
