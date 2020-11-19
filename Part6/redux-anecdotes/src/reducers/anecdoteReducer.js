@@ -1,4 +1,4 @@
-const anecdotesAtStart = [
+/*const anecdotesAtStart = [
   'If it hurts, do it more often',
   'Adding manpower to a late software project makes it later!',
   'The first 90 percent of the code accounts for the first 90 percent of the development time...The remaining 10 percent of the code accounts for the other 90 percent of the development time.',
@@ -17,41 +17,53 @@ const asObject = (anecdote) => {
   }
 }
 
-const initialState = anecdotesAtStart.map(asObject)
+const initialState = anecdotesAtStart.map(asObject)*/
+import anecdoteService from '../services/anecdotes'
 
-const reducer = (state = initialState, action) => {
+const anecdotesreducer = (state = [], action) => {
   console.log('state now: ', state)
   console.log('action', action)
   switch (action.type) {
     case 'ADD_VOTE':
-      const id = action.data.id
-      const votesToAdd = state.find(n => n.id === id)
-      const changedVote = { ...votesToAdd, votes: votesToAdd.votes + 1 }
-      return state.map(note =>
-        note.id !== id ? note : changedVote)
+     return [...state, action.data]
     case 'NEW_ANECDOTE':
       return [...state, action.data]
+    case 'INIT_ANECDOTES':
+      return action.data
     default:
       return state
   }
 }
 
-export const addVote = (id) => {
-  return {
+export const addVote = (id, content) => {
+ return async dispatch => {
+   
+    const newAnecdotes = await anecdoteService.createVote(id, content)
+   dispatch({
     type: 'ADD_VOTE',
-    data: { id }
-  }
+    data: newAnecdotes,
+  })
+}
 }
 
-export const createAnecdote = (content) => {
-  return {
+export const createAnecdote = content => {
+  return async dispatch => {
+      const newAnecdotes = await anecdoteService.createNew(content)
+     dispatch({
     type: 'NEW_ANECDOTE',
-    data: {
-      content,
-      id: getId(),
-      votes: 0
-    }
+    data: newAnecdotes,
+    })
   }
 }
 
-export default reducer
+export const initializeAnecdotes = () => {
+  return async dispatch => {
+    const anecdotes = await anecdoteService.getAll()
+   dispatch({
+    type: 'INIT_ANECDOTES',
+   data: anecdotes,
+  })
+  }
+}
+
+export default anecdotesreducer
