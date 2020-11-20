@@ -4,9 +4,7 @@ const notificationReducer = (state = initialState, action) => {
   console.log('state now: ', state)
   switch (action.type) {
     case 'SET_MESSAGE':
-      let newState = { ...state}
-      newState = action.notification
-      return newState
+      return action.notification
     case 'CLEAR_MESSAGE':
        return ''
 
@@ -16,9 +14,8 @@ const notificationReducer = (state = initialState, action) => {
 }
 export const setMessage = (notification) => ({
     type: 'SET_MESSAGE',
-    notification
-  
-})
+    notification,
+  })
 
 export const clearMessage = () => ({
   type: 'CLEAR_MESSAGE',

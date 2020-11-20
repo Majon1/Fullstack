@@ -44,7 +44,7 @@ export const addVote = (id, content) => {
     const newAnecdotes = await anecdoteService.createVote(id, content)
    dispatch({
     type: 'ADD_VOTE',
-    data: newAnecdotes
+    data: newAnecdotes,
   })
 }
 }
