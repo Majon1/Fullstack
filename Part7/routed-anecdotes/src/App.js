@@ -1,40 +1,24 @@
 import React, { useState } from 'react'
 import {
   BrowserRouter as Router,
-  Switch, Route, Link, useParams
+  Switch, Route, Link, useParams, useHistory
 } from "react-router-dom"
 
 
-const Menu = ({anecdotes}) => {
+const Menu = () => {
   const padding = {
     paddingRight: 5
   }
   
   return (
-    <Router>
       <div>
         <Link style={padding} to='/'>anecdotes</Link>
         <Link style={padding} to='/create'>create new</Link>
         <Link style={padding} to='/about'>about</Link>
       </div>
-
-      <Switch>
-        <Route path="/create">
-          <CreateNew />
-        </Route>
-        <Route path="/about">
-          <About />
-        </Route>
-        <Route path="/anecdotes/:id">
-        <Anecdotes anecdotes={anecdotes} />
-      </Route>
-        <Route path="/">
-          <AnecdoteList anecdotes={anecdotes} />
-        </Route>
-      </Switch>
-    </Router>
   )
 }
+
 const Anecdotes = ({ anecdotes }) => {
   const id = useParams().id
   const anecdote = anecdotes.find(n => n.id === id) 
@@ -81,10 +65,15 @@ const Footer = () => (
   </div>
 )
 
+let timeoutID
+
 const CreateNew = (props) => {
   const [content, setContent] = useState('')
   const [author, setAuthor] = useState('')
   const [info, setInfo] = useState('')
+  const history = useHistory()
+  clearTimeout(timeoutID)
+
 
 
   const handleSubmit = (e) => {
@@ -95,6 +84,7 @@ const CreateNew = (props) => {
       info,
       votes: 0
     })
+    history.push('/')
   }
 
   return (
@@ -113,11 +103,10 @@ const CreateNew = (props) => {
           url for more info
           <input name='info' value={info} onChange={(e) => setInfo(e.target.value)} />
         </div>
-        <button>create</button>
+        <button type="submit">create</button>
       </form>
     </div>
   )
-
 }
 
 const App = () => {
@@ -144,6 +133,10 @@ const App = () => {
   const addNew = (anecdote) => {
     anecdote.id = (Math.random() * 10000).toFixed(0)
     setAnecdotes(anecdotes.concat(anecdote))
+    setNotification(`a new anecdote '${anecdote.content}' added!`)
+    timeoutID = setTimeout(() => {
+      setNotification('')
+    }, 10000)
   }
 
   const anecdoteById = (id) =>
@@ -163,8 +156,25 @@ const App = () => {
  
   return (
     <div>
+      <Router>
       <h1>Software anecdotes</h1>
-      <Menu anecdotes={anecdotes} />
+      <Menu />
+      {notification}
+      <Switch>
+        <Route path="/create">
+          <CreateNew addNew={addNew}/>
+        </Route>
+        <Route path="/about">
+          <About />
+        </Route>
+        <Route path="/anecdotes/:id">
+        <Anecdotes anecdotes={anecdotes} />
+      </Route>
+        <Route path="/">
+          <AnecdoteList anecdotes={anecdotes} />
+        </Route>
+      </Switch>
+    </Router>
       <Footer />
     </div>
   )
