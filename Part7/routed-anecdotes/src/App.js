@@ -3,38 +3,39 @@ import {
   BrowserRouter as Router,
   Switch, Route, Link, useParams, useHistory
 } from "react-router-dom"
+import { useField } from './hooks'
 
 
 const Menu = () => {
   const padding = {
     paddingRight: 5
   }
-  
+
   return (
-      <div>
-        <Link style={padding} to='/'>anecdotes</Link>
-        <Link style={padding} to='/create'>create new</Link>
-        <Link style={padding} to='/about'>about</Link>
-      </div>
+    <div>
+      <Link style={padding} to='/'>anecdotes</Link>
+      <Link style={padding} to='/create'>create new</Link>
+      <Link style={padding} to='/about'>about</Link>
+    </div>
   )
 }
 
 const Anecdotes = ({ anecdotes }) => {
   const id = useParams().id
-  const anecdote = anecdotes.find(n => n.id === id) 
-     return (
+  const anecdote = anecdotes.find(n => n.id === id)
+  return (
     <div>
       <h2>{anecdote.content} by {anecdote.author}</h2>
       <div>has {anecdote.votes} votes</div>
-     <div>for more info see <a href='{anecdote.info}'>{anecdote.info}</a></div>
-  </div>)
+      <div>for more info see <a href='{anecdote.info}'>{anecdote.info}</a></div>
+    </div>)
 }
 
 const AnecdoteList = ({ anecdotes }) => (
   <div>
     <h2>Anecdotes</h2>
     <ul>
-    {anecdotes.map(anecdote =>
+      {anecdotes.map(anecdote =>
         <li key={anecdote.id}>
           <Link to={`/anecdotes/${anecdote.id}`}>{anecdote.content}</Link>
         </li>
@@ -65,45 +66,49 @@ const Footer = () => (
   </div>
 )
 
-let timeoutID
 
 const CreateNew = (props) => {
-  const [content, setContent] = useState('')
-  const [author, setAuthor] = useState('')
-  const [info, setInfo] = useState('')
+  const { onReset: resetContent, ...content } = useField('text')
+  const { onReset: resetAuthor, ...author } = useField('text')
+  const { onReset: resetInfo, ...info } = useField('text')
   const history = useHistory()
-  clearTimeout(timeoutID)
-
 
 
   const handleSubmit = (e) => {
     e.preventDefault()
     props.addNew({
-      content,
-      author,
-      info,
+      content: content.value,
+      author: author.value,
+      info: info.value,
       votes: 0
     })
     history.push('/')
   }
 
+  const reset = () => {
+    resetContent()
+    resetAuthor()
+    resetInfo()
+  }
+
   return (
     <div>
       <h2>create a new anecdote</h2>
-      <form onSubmit={handleSubmit}>
+      <form>
         <div>
           content
-          <input name='content' value={content} onChange={(e) => setContent(e.target.value)} />
+          <input {...content} name='content' />
         </div>
         <div>
           author
-          <input name='author' value={author} onChange={(e) => setAuthor(e.target.value)} />
+          <input {...author} name='author' />
         </div>
         <div>
           url for more info
-          <input name='info' value={info} onChange={(e) => setInfo(e.target.value)} />
+          <input {...info} name='info' />
         </div>
-        <button type="submit">create</button>
+        <button onClick={handleSubmit}>create</button>
+        <button type='onReset' onClick={reset}>reset</button>
       </form>
     </div>
   )
@@ -134,9 +139,9 @@ const App = () => {
     anecdote.id = (Math.random() * 10000).toFixed(0)
     setAnecdotes(anecdotes.concat(anecdote))
     setNotification(`a new anecdote '${anecdote.content}' added!`)
-    timeoutID = setTimeout(() => {
+    setTimeout(() => {
       setNotification('')
-    }, 10000)
+    }, 5000)
   }
 
   const anecdoteById = (id) =>
@@ -153,31 +158,31 @@ const App = () => {
     setAnecdotes(anecdotes.map(a => a.id === id ? voted : a))
   }
 
- 
+
   return (
     <div>
       <Router>
-      <h1>Software anecdotes</h1>
-      <Menu />
-      {notification}
-      <Switch>
-        <Route path="/create">
-          <CreateNew addNew={addNew}/>
-        </Route>
-        <Route path="/about">
-          <About />
-        </Route>
-        <Route path="/anecdotes/:id">
-        <Anecdotes anecdotes={anecdotes} />
-      </Route>
-        <Route path="/">
-          <AnecdoteList anecdotes={anecdotes} />
-        </Route>
-      </Switch>
-    </Router>
+        <h1>Software anecdotes</h1>
+        <Menu />
+        {notification}
+        <Switch>
+          <Route path="/create">
+            <CreateNew addNew={addNew} />
+          </Route>
+          <Route path="/about">
+            <About />
+          </Route>
+          <Route path="/anecdotes/:id">
+            <Anecdotes anecdotes={anecdotes} />
+          </Route>
+          <Route path="/">
+            <AnecdoteList anecdotes={anecdotes} />
+          </Route>
+        </Switch>
+      </Router>
       <Footer />
     </div>
   )
 }
 
-export default App;
+export default App
