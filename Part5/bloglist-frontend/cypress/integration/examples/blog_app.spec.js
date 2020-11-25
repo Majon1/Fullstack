@@ -91,10 +91,28 @@ describe('Blog app', function () {
           .and('have.css', 'color', 'rgb(255, 0, 0)')
           .and('have.css', 'border-style', 'solid')
       })
-
+    })
+    describe('and a blog is sorted', function () {
+      beforeEach(function () {
+        cy.createBlog({
+          title: 'a blog created by cypress',
+          author: 'nobody',
+          url: 'wwweb',
+          likes: 2
+        })
+        cy.createBlog({
+          title: 'a second blog',
+          author: 'cypress',
+          url: 'web',
+          likes: 5
+        })
+      })
       it('blogs are ordered according to likes', function () {
-        cy.contains('a blog created by cypress')
-        cy.contains('a second blog')
+        cy.get('div').eq(0)
+        cy.contains('likes: 5')
+        cy.get('div').eq(1)
+        cy.contains('likes: 2')
+
       })
     })
   })
