@@ -13,7 +13,7 @@ Part 3 | 22 | 22 | 35
 Part 4 | 21 | 22 | 55
 Part 5 | 21 | 22 | 55 
 Part 6 | 21 | 21 | 40
-Part 7 | 6 | 21 |    
+Part 7 | 7 | 21 |    
 Part 8 |  | |
 
 ### Submitted
