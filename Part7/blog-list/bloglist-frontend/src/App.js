@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import Notification from './components/Notification'
+import loginService from './services/login'
 import Togglable from './components/Togglable'
 import NewBlog from './components/NewBlog'
 import { setMessage } from './reducers/notifyReducer'
-import loginService from './services/login'
 import storage from './utils/storage'
 import { useDispatch, useSelector } from 'react-redux'
 import { initializeBlogs, create, addLike, removeB } from './reducers/reducer'
+import { login, logOut } from './reducers/logReducer'
 
 const App = () => {
   const blogs = useSelector(state => state.blogs)
-  const [user, setUser] = useState(null)
+  const user = useSelector(state => state.user)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const dispatch = useDispatch()
@@ -23,8 +24,8 @@ const App = () => {
 
   useEffect(() => {
     const user = storage.loadUser()
-    setUser(user)
-  }, [])
+    dispatch(login(user))
+  }, [dispatch])
 
   const notifyWith = (message, type = 'success') => {
     const mess = { message, type }
@@ -34,19 +35,19 @@ const App = () => {
   const handleLogin = async (event) => {
     event.preventDefault()
     try {
-      const user = await loginService.login({
-        username, password
-      })
+      const user = await loginService.login({ username, password })
 
       setUsername('')
       setPassword('')
-      setUser(user)
+      dispatch(login(user))
       notifyWith(`${user.name} welcome back!`)
       storage.saveUser(user)
-    } catch (exception) {
+    }
+    catch (exception) {
       notifyWith('wrong username/password', 'error')
     }
   }
+
 
   const createBlog = async (blog) => {
     try {
@@ -75,7 +76,7 @@ const App = () => {
   }
 
   const handleLogout = () => {
-    setUser(null)
+    dispatch(logOut())
     storage.logoutUser()
   }
 

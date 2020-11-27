@@ -2,7 +2,6 @@ const initialState = null
 let timeOut = 0
 
 const notifyReducer = (state = initialState, action) => {
-  console.log('state', state)
   switch (action.type) {
   case 'SET_MESSAGE':
     return action.notification
