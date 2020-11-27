@@ -5,12 +5,10 @@ const NewBlog = (props) => {
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
 
+
   const handleNewBlog = (event) => {
     event.preventDefault()
-
-    props.createBlog({
-      title, author, url
-    })
+    props.createBlog({ title, author, url })
 
     setTitle('')
     setAuthor('')
