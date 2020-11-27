@@ -11,10 +11,9 @@ Part 1 | 14 | 14 | 12
 Part 2 | 19 | 20 | 25  
 Part 3 | 22 | 22 | 35   
 Part 4 | 21 | 22 | 55
-Part 5 | 21 | 22 | 55 
-Part 6 | 21 | 21 | 40
-Part 7 | 7 | 21 |    
-Part 8 |  | |
+Part 5 | 22 | 22 | 65 
+Part 6 | 21 | 21 | 45
+Part 7 | 9 | 21 |
 
 ### Submitted
 - [x] Part 0
@@ -22,10 +21,9 @@ Part 8 |  | |
 - [x] Part 2
 - [x] Part 3
 - [x] Part 4
-- [ ] Part 5
-- [ ] Part 6
+- [x] Part 5
+- [x] Part 6
 - [ ] Part 7
-- [ ] Part 8
 
 ###Notes
 
