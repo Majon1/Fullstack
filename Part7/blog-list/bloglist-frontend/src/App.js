@@ -10,14 +10,14 @@ import { initializeBlogs, create, addLike, removeB } from './reducers/reducer'
 import { initializeUser } from './reducers/userReducer'
 import { login, logOut } from './reducers/logReducer'
 import {
-  BrowserRouter as Router,
-  Switch, Route, Link, useParams
+  Switch, Route, Link, useRouteMatch, useParams
 } from 'react-router-dom'
 
 
 const App = () => {
   const blogs = useSelector(state => state.blogs)
   const user = useSelector(state => state.user)
+  const users = useSelector(state => state.users)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const dispatch = useDispatch()
@@ -38,6 +38,7 @@ const App = () => {
     dispatch(setMessage(mess, 5))
   }
 
+
   const handleLogin = async (event) => {
     event.preventDefault()
     try {
@@ -57,81 +58,83 @@ const App = () => {
     const padding = {
       paddingRight: 5
     }
+    const matchB = useRouteMatch('/blogs/:id')
+    const blog = matchB
+      ? blogs.find(blog => blog.id === (matchB.params.id))
+      : null
+
     return (
       <div>
-        <Router>
-          <div>
-            <Link style={padding} to='/'>home</Link>
-            <Link style={padding} to='/blogs'>blogs</Link>
-            <Link style={padding} to='/users'>users</Link>
-            {user.name} logged in <button onClick={handleLogout}>logout</button>
-          </div>
-          <div>
-            <Switch>
-              <Route path='/users/:id'>
-                <UserId user={user} />
-              </Route>
-              <Route path='/users'>
-                <Users user={user} />
-              </Route>
-              <Route path='/blogs/:id'>
-                <ShowBlogId blogs={blogs} />
-              </Route>
-              <Route path='/blogs'>
-                <ShowBlog blogs={blogs} />
-              </Route>
-              <Route path="/">
-                <Togglable buttonLabel='create new blog' ref={blogFormRef}>
-                  <NewBlog createBlog={createBlog} />
-                </Togglable>
-                <ShowBlog blogs={blogs} />
-              </Route>
-            </Switch>
-          </div>
-        </Router >
+        <div>
+          <Link style={padding} to='/'>home</Link>
+          <Link style={padding} to='/blogs'>blogs</Link>
+          <Link style={padding} to='/users'>users</Link>
+          {user.name} logged in <button onClick={handleLogout}>logout</button>
+        </div>
+        <div>
+          <Switch>
+            <Route path='/users/:id'>
+              <UserId users={users} />
+            </Route>
+            <Route path='/users'>
+              <Users users={users} />
+            </Route>
+            <Route path='/blogs/:id'>
+              <ShowBlogId blog={blog} />
+            </Route>
+            <Route path='/blogs'>
+              <ShowBlog blogs={blogs} />
+            </Route>
+            <Route path="/">
+              <Togglable buttonLabel='create new blog' ref={blogFormRef}>
+                <NewBlog createBlog={createBlog} />
+              </Togglable>
+              <ShowBlog blogs={blogs} />
+            </Route>
+          </Switch>
+        </div>
       </div>
     )
   }
-
-  const Users = ({ user }) => (
+  const Users = ({ users }) => (
     <div>
       <h2>Users</h2>
-      {user.map(users =>
-        <div key={users.id}>
-          <div>
-            <Link to={`/users/${users.id}`}>{users.name}</Link>
-          </div>
-        </div>)}
-    </div >
+      <table>
+        <thead>
+          <tr><th></th><th>blogs created</th></tr>
+        </thead>
+        <tbody>
+          {users.map(user =>
+            <tr key={user.id}><td>
+              <Link to={`/users/${user.id}`}>{user.name}</Link></td><td>{user.blogs.length}</td>
+            </tr>)}
+        </tbody>
+      </table>
+    </div>
 
   )
-  const UserId = ({ user }) => {
+
+  const UserId = ({ users }) => {
     const id = useParams().id
-    const users = user.find(n => n.id === id)
-    if (!users) {
+    const user = users.find(n => n.id === id)
+    if (!user) {
       return null
     }
-    console.log(users)
     return (
       <div>
-        <h2>{users.name}</h2>
+        <h2>{user.name}</h2>
         <div>added blogs:</div>
         <ul>
-          {user.map(users => <li key={users.id}>
-            {users.username === blogs.user.username}
-          </li>)}
+          {user.blogs.map(blog => <li key={blog.id}>{blog.title} </li>)}
         </ul>
       </div>
     )
   }
 
-  const ShowBlogId = ({ blogs }) => {
-    const id = useParams().id
-    const blog = blogs.find(n => n.id === id)
+  const ShowBlogId = ({ blog }) => {
     if (!blog) {
       return null
     }
-    console.log(blog)
     return (
       <div>
         <h2>{blog.title} by {blog.author}</h2>
