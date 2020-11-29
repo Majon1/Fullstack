@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import Blog from './components/Blog'
 import Notification from './components/Notification'
 import loginService from './services/login'
 import Togglable from './components/Togglable'
@@ -8,7 +7,13 @@ import { setMessage } from './reducers/notifyReducer'
 import storage from './utils/storage'
 import { useDispatch, useSelector } from 'react-redux'
 import { initializeBlogs, create, addLike, removeB } from './reducers/reducer'
+import { initializeUser } from './reducers/userReducer'
 import { login, logOut } from './reducers/logReducer'
+import {
+  BrowserRouter as Router,
+  Switch, Route, Link, useParams
+} from 'react-router-dom'
+
 
 const App = () => {
   const blogs = useSelector(state => state.blogs)
@@ -20,6 +25,7 @@ const App = () => {
 
   useEffect(() => {
     dispatch(initializeBlogs())
+    dispatch(initializeUser())
   }, [dispatch])
 
   useEffect(() => {
@@ -47,6 +53,115 @@ const App = () => {
       notifyWith('wrong username/password', 'error')
     }
   }
+  const Menu = () => {
+    const padding = {
+      paddingRight: 5
+    }
+    return (
+      <div>
+        <Router>
+          <div>
+            <Link style={padding} to='/'>home</Link>
+            <Link style={padding} to='/blogs'>blogs</Link>
+            <Link style={padding} to='/users'>users</Link>
+            {user.name} logged in <button onClick={handleLogout}>logout</button>
+          </div>
+          <div>
+            <Switch>
+              <Route path='/users/:id'>
+                <UserId user={user} />
+              </Route>
+              <Route path='/users'>
+                <Users user={user} />
+              </Route>
+              <Route path='/blogs/:id'>
+                <ShowBlogId blogs={blogs} />
+              </Route>
+              <Route path='/blogs'>
+                <ShowBlog blogs={blogs} />
+              </Route>
+              <Route path="/">
+                <Togglable buttonLabel='create new blog' ref={blogFormRef}>
+                  <NewBlog createBlog={createBlog} />
+                </Togglable>
+                <ShowBlog blogs={blogs} />
+              </Route>
+            </Switch>
+          </div>
+        </Router >
+      </div>
+    )
+  }
+
+  const Users = ({ user }) => (
+    <div>
+      <h2>Users</h2>
+      {user.map(users =>
+        <div key={users.id}>
+          <div>
+            <Link to={`/users/${users.id}`}>{users.name}</Link>
+          </div>
+        </div>)}
+    </div >
+
+  )
+  const UserId = ({ user }) => {
+    const id = useParams().id
+    const users = user.find(n => n.id === id)
+    if (!users) {
+      return null
+    }
+    console.log(users)
+    return (
+      <div>
+        <h2>{users.name}</h2>
+        <div>added blogs:</div>
+        <ul>
+          {user.map(users => <li key={users.id}>
+            {users.username === blogs.user.username}
+          </li>)}
+        </ul>
+      </div>
+    )
+  }
+
+  const ShowBlogId = ({ blogs }) => {
+    const id = useParams().id
+    const blog = blogs.find(n => n.id === id)
+    if (!blog) {
+      return null
+    }
+    console.log(blog)
+    return (
+      <div>
+        <h2>{blog.title} by {blog.author}</h2>
+        <div><a href='{blog.url}'>{blog.url}</a></div>
+        <div>has {blog.likes} likes <button onClick={() => handleLike(blog.id)}>like</button></div>
+        <div>added by {blog.user.name}</div>
+        <div>
+          {user.username === blog.user.username && <button onClick={() => handleRemove(blog.id)}>remove</button>}</div>
+      </div>)
+  }
+  const blogStyle = {
+    paddingTop: 10,
+    paddingLeft: 2,
+    border: 'solid',
+    borderWidth: 1,
+    marginBottom: 5
+  }
+
+  const byLikes = (b1, b2) => b2.likes - b1.likes
+  const ShowBlog = ({ blogs }) => (
+    <div>
+      <h2>Blogs</h2>
+      {blogs.sort(byLikes).map(blog =>
+        <div key={blog.id}>
+          <div style={blogStyle}>
+            <Link to={`/blogs/${blog.id}`}>{blog.title} - {blog.author}</Link>
+          </div>
+        </div>)}
+    </div >
+  )
 
 
   const createBlog = async (blog) => {
@@ -74,6 +189,7 @@ const App = () => {
       notifyWith(`${blogToRemove.title} removed!`)
     }
   }
+
 
   const handleLogout = () => {
     dispatch(logOut())
@@ -107,29 +223,24 @@ const App = () => {
     )
   }
 
-  const byLikes = (b1, b2) => b2.likes - b1.likes
+  // const byLikes = (b1, b2) => b2.likes - b1.likes
 
   return (
     <div>
       <Notification />
-      <h2>blogs</h2>
-      <p>
-        {user.name} logged in <button onClick={handleLogout}>logout</button>
-      </p>
-
-      <Togglable buttonLabel='create new blog' ref={blogFormRef}>
-        <NewBlog createBlog={createBlog} />
-      </Togglable>
-      {blogs.sort(byLikes).map(blog =>
-        <Blog
-          key={blog.id}
-          blog={blog}
-          handleLike={handleLike}
-          handleRemove={handleRemove}
-          own={user.username === blog.user.username}
-        />
-      )}
+      <h2>BlogApp</h2>
+      <Menu />
     </div>)
 }
-
+/*<div>
+        {blogs.sort(byLikes).map(blog =>
+          <Blog
+            key={blog.id}
+            blog={blog}
+            handleLike={handleLike}
+            handleRemove={handleRemove}
+            own={user.username === blog.user.username}
+          />
+        )}
+      </div> */
 export default App

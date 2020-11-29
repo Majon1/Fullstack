@@ -1,8 +1,7 @@
-import React, { useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 
 const Blog = ({ blog, handleLike, handleRemove, own }) => {
-  const [visible, setVisible] = useState(false)
 
   const blogStyle = {
     paddingTop: 10,
@@ -12,23 +11,20 @@ const Blog = ({ blog, handleLike, handleRemove, own }) => {
     marginBottom: 5
   }
 
-  const label = visible ? 'hide' : 'view'
 
   return (
     <div style={blogStyle} className='blog'>
       <div>
-        <i>{blog.title}</i> by {blog.author} <button onClick={() => setVisible(!visible)}>{label}</button>
+        <i>{blog.title}</i> by {blog.author}
       </div>
-      {visible && (
-        <div>
-          <div>{blog.url}</div>
-          <div>likes {blog.likes}
-            <button onClick={() => handleLike(blog.id)}>like</button>
-          </div>
-          <div>{blog.user.name}</div>
-          {own && <button onClick={() => handleRemove(blog.id)}>remove</button>}
+      <div>
+        <div>{blog.url}</div>
+        <div>likes {blog.likes}
+          <button onClick={() => handleLike(blog.id)}>like</button>
         </div>
-      )}
+        <div>{blog.user.name}</div>
+        {own && <button onClick={() => handleRemove(blog.id)}>remove</button>}
+      </div>
     </div>
   )
 }
