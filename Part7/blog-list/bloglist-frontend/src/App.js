@@ -171,6 +171,8 @@ const App = () => {
     try {
       blogFormRef.current.toggleVisibility()
       dispatch(create(blog))
+      dispatch(initializeBlogs())
+      dispatch(initializeUser())
       notifyWith(`a new blog '${blog.title}' by ${blog.author} added!`)
     } catch (exception) {
       console.log(exception)
@@ -189,6 +191,8 @@ const App = () => {
     const ok = window.confirm(`Remove blog ${blogToRemove.title} by ${blogToRemove.author}`)
     if (ok) {
       dispatch(removeB(blogToRemove.id))
+      dispatch(initializeBlogs())
+      dispatch(initializeUser())
       notifyWith(`${blogToRemove.title} removed!`)
     }
   }
