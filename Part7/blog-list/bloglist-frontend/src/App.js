@@ -12,6 +12,20 @@ import { login, logOut } from './reducers/logReducer'
 import {
   Switch, Route, Link, useRouteMatch, useParams
 } from 'react-router-dom'
+import {
+  Container,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableRow,
+  Paper,
+  TextField,
+  Button,
+  AppBar,
+  Toolbar
+} from '@material-ui/core'
+
 
 
 const App = () => {
@@ -38,7 +52,6 @@ const App = () => {
     dispatch(setMessage(mess, 5))
   }
 
-
   const handleLogin = async (event) => {
     event.preventDefault()
     try {
@@ -55,9 +68,7 @@ const App = () => {
     }
   }
   const Menu = () => {
-    const padding = {
-      paddingRight: 5
-    }
+
     const matchB = useRouteMatch('/blogs/:id')
     const blog = matchB
       ? blogs.find(blog => blog.id === (matchB.params.id))
@@ -66,10 +77,22 @@ const App = () => {
     return (
       <div>
         <div>
-          <Link style={padding} to='/'>home</Link>
-          <Link style={padding} to='/blogs'>blogs</Link>
-          <Link style={padding} to='/users'>users</Link>
-          {user.name} logged in <button onClick={handleLogout}>logout</button>
+          <AppBar position="static">
+
+            <Toolbar>
+              <Button color="inherit"
+                component={Link} to="/">home
+              </Button>
+              <Button color="inherit"
+                component={Link} to="/blogs">blogs
+              </Button>
+              <Button color="inherit"
+                component={Link} to="/users">home
+              </Button>
+              {user.name} logged in<button onClick={handleLogout}>logout</button>
+            </Toolbar>
+          </AppBar>
+          <h2>BlogApp</h2>
         </div>
         <div>
           <Switch>
@@ -101,7 +124,7 @@ const App = () => {
       <h2>Users</h2>
       <table>
         <thead>
-          <tr><th></th><th>blogs created</th></tr>
+          <tr><th></th><th>blogs created:</th></tr>
         </thead>
         <tbody>
           {users.map(user =>
@@ -145,24 +168,28 @@ const App = () => {
           {user.username === blog.user.username && <button onClick={() => handleRemove(blog.id)}>remove</button>}</div>
       </div>)
   }
-  const blogStyle = {
-    paddingTop: 10,
-    paddingLeft: 2,
-    border: 'solid',
-    borderWidth: 1,
-    marginBottom: 5
-  }
 
   const byLikes = (b1, b2) => b2.likes - b1.likes
   const ShowBlog = ({ blogs }) => (
     <div>
       <h2>Blogs</h2>
-      {blogs.sort(byLikes).map(blog =>
-        <div key={blog.id}>
-          <div style={blogStyle}>
-            <Link to={`/blogs/${blog.id}`}>{blog.title} - {blog.author}</Link>
-          </div>
-        </div>)}
+
+      <TableContainer component={Paper}>
+        <Table>
+          <TableBody>
+            {blogs.sort(byLikes).map(blog =>
+              <TableRow key={blog.id}>
+                <TableCell>
+                  <Link to={`/blogs/${blog.id}`}>{blog.title} </Link>
+                </TableCell>
+                <TableCell>
+                  {blog.author}
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </div >
   )
 
@@ -209,22 +236,16 @@ const App = () => {
         <h2>login to application</h2>
         <form onSubmit={handleLogin}>
           <div>
-            username
-            <input
-              id='username'
-              value={username}
-              onChange={({ target }) => setUsername(target.value)}
-            />
+            <TextField label="username" onChange={({ target }) => setUsername(target.value)} />
           </div>
           <div>
-            password
-            <input
-              id='password'
-              value={password}
-              onChange={({ target }) => setPassword(target.value)}
-            />
+            <TextField label="password" type='password' onChange={({ target }) => setPassword(target.value)} />
           </div>
-          <button id='login'>login</button>
+          <div>
+            <Button variant="contained" color="primary" type="submit" id='login'>
+              login
+            </Button>
+          </div>
         </form>
       </div>
     )
@@ -233,21 +254,12 @@ const App = () => {
   // const byLikes = (b1, b2) => b2.likes - b1.likes
 
   return (
-    <div>
-      <Notification />
-      <h2>BlogApp</h2>
-      <Menu />
-    </div>)
+    <Container>
+      <div>
+        <Notification />
+        <Menu />
+      </div>
+    </Container>)
 }
-/*<div>
-        {blogs.sort(byLikes).map(blog =>
-          <Blog
-            key={blog.id}
-            blog={blog}
-            handleLike={handleLike}
-            handleRemove={handleRemove}
-            own={user.username === blog.user.username}
-          />
-        )}
-      </div> */
+
 export default App
