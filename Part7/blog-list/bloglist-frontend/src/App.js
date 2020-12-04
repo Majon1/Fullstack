@@ -26,8 +26,6 @@ import {
   Toolbar
 } from '@material-ui/core'
 
-
-
 const App = () => {
   const blogs = useSelector(state => state.blogs)
   const user = useSelector(state => state.user)
@@ -56,7 +54,6 @@ const App = () => {
     event.preventDefault()
     try {
       const user = await loginService.login({ username, password })
-
       setUsername('')
       setPassword('')
       dispatch(login(user))
@@ -64,9 +61,11 @@ const App = () => {
       storage.saveUser(user)
     }
     catch (exception) {
-      notifyWith('wrong username/password', 'error')
+      console.log('wrong user/pass')
+      notifyWith('wrong username/password')
     }
   }
+
   const Menu = () => {
 
     const matchB = useRouteMatch('/blogs/:id')
@@ -78,7 +77,6 @@ const App = () => {
       <div>
         <div>
           <AppBar position="static">
-
             <Toolbar>
               <Button color="inherit"
                 component={Link} to="/">home
@@ -87,11 +85,12 @@ const App = () => {
                 component={Link} to="/blogs">blogs
               </Button>
               <Button color="inherit"
-                component={Link} to="/users">home
+                component={Link} to="/users">users
               </Button>
               {user.name} logged in<button onClick={handleLogout}>logout</button>
             </Toolbar>
           </AppBar>
+          <Notification />
           <h2>BlogApp</h2>
         </div>
         <div>
@@ -119,6 +118,7 @@ const App = () => {
       </div>
     )
   }
+
   const Users = ({ users }) => (
     <div>
       <h2>Users</h2>
@@ -134,7 +134,6 @@ const App = () => {
         </tbody>
       </table>
     </div>
-
   )
 
   const UserId = ({ users }) => {
@@ -173,7 +172,6 @@ const App = () => {
   const ShowBlog = ({ blogs }) => (
     <div>
       <h2>Blogs</h2>
-
       <TableContainer component={Paper}>
         <Table>
           <TableBody>
@@ -193,7 +191,6 @@ const App = () => {
     </div >
   )
 
-
   const createBlog = async (blog) => {
     try {
       blogFormRef.current.toggleVisibility()
@@ -210,7 +207,8 @@ const App = () => {
     const vote = blogs.find(n => n.id === id)
     const votedOn = { ...vote, likes: vote.likes + 1, user: vote.user.id }
     dispatch(addLike(votedOn))
-    //dispatch(setMessage(`You voted on "${vote}"`, 5))
+    console.log('voted')
+    notifyWith(`You voted on "${votedOn.title}"`)
   }
 
   const handleRemove = async (id) => {
@@ -224,7 +222,6 @@ const App = () => {
     }
   }
 
-
   const handleLogout = () => {
     dispatch(logOut())
     storage.logoutUser()
@@ -235,6 +232,7 @@ const App = () => {
       <div>
         <h2>login to application</h2>
         <form onSubmit={handleLogin}>
+          <Notification />
           <div>
             <TextField label="username" onChange={({ target }) => setUsername(target.value)} />
           </div>
@@ -251,12 +249,9 @@ const App = () => {
     )
   }
 
-  // const byLikes = (b1, b2) => b2.likes - b1.likes
-
   return (
     <Container>
       <div>
-        <Notification />
         <Menu />
       </div>
     </Container>)
