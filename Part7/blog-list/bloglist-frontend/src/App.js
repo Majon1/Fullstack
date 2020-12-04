@@ -23,7 +23,8 @@ import {
   TextField,
   Button,
   AppBar,
-  Toolbar
+  Toolbar,
+  TableHead
 } from '@material-ui/core'
 
 const App = () => {
@@ -121,19 +122,25 @@ const App = () => {
 
   const Users = ({ users }) => (
     <div>
-      <h2>Users</h2>
-      <table>
-        <thead>
-          <tr><th></th><th>blogs created:</th></tr>
-        </thead>
-        <tbody>
-          {users.map(user =>
-            <tr key={user.id}><td>
-              <Link to={`/users/${user.id}`}>{user.name}</Link></td><td>{user.blogs.length}</td>
-            </tr>)}
-        </tbody>
-      </table>
-    </div>
+      <TableContainer component={Paper}>
+        <Table>
+          <TableHead>
+            <tr><th align='left'>Users:</th><th align='left'>Blogs created:</th></tr>
+          </TableHead>
+          <TableBody>
+            {users.map(user =>
+              <TableRow key={user.id}>
+                <TableCell align='left'>
+                  <Link to={`/users/${user.id}`}>{user.name}</Link>
+                </TableCell>
+                <TableCell align='left'>
+                  {user.blogs.length}
+                </TableCell>
+              </TableRow>)}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </div >
   )
 
   const UserId = ({ users }) => {
@@ -145,10 +152,16 @@ const App = () => {
     return (
       <div>
         <h2>{user.name}</h2>
-        <div>added blogs:</div>
-        <ul>
-          {user.blogs.map(blog => <li key={blog.id}>{blog.title} </li>)}
-        </ul>
+        <TableContainer component={Paper}>
+          <Table>
+            <TableHead>
+              <tr><th align="left">Added blogs:</th></tr>
+            </TableHead>
+            <TableBody>
+              {user.blogs.map(blog => <TableRow key={blog.id}><TableCell>{blog.title}</TableCell> </TableRow>)}
+            </TableBody>
+          </Table>
+        </TableContainer>
       </div>
     )
   }
