@@ -158,7 +158,7 @@ const App = () => {
               <tr><th align="left">Added blogs:</th></tr>
             </TableHead>
             <TableBody>
-              {user.blogs.map(blog => <TableRow key={blog.id}><TableCell>{blog.title}</TableCell> </TableRow>)}
+              {user.blogs.map(blog => <TableRow key={blog.id}><TableCell><Link to={`/blogs/${blog.id}`}>{blog.title} </Link></TableCell> </TableRow>)}
             </TableBody>
           </Table>
         </TableContainer>
