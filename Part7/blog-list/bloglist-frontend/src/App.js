@@ -9,23 +9,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { initializeBlogs, create, addLike, removeB } from './reducers/reducer'
 import { initializeUser } from './reducers/userReducer'
 import { login, logOut } from './reducers/logReducer'
-import {
-  Switch, Route, Link, useRouteMatch, useParams
-} from 'react-router-dom'
-import {
-  Container,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableRow,
-  Paper,
-  TextField,
-  Button,
-  AppBar,
-  Toolbar,
-  TableHead
-} from '@material-ui/core'
+import { Switch, Route, Link, useRouteMatch, useParams } from 'react-router-dom'
+import { Container, Table, TableBody, TableCell, TableContainer, TableRow, Paper, TextField, Button, AppBar, Toolbar, TableHead } from '@material-ui/core'
 
 const App = () => {
   const blogs = useSelector(state => state.blogs)
@@ -88,11 +73,12 @@ const App = () => {
               <Button color="inherit"
                 component={Link} to="/users">users
               </Button>
-              {user.name} logged in<button onClick={handleLogout}>logout</button>
+              <Button color="inherit" onClick={handleLogout}>logout</Button>
             </Toolbar>
           </AppBar>
           <Notification />
           <h2>BlogApp</h2>
+          {user.name} logged in
         </div>
         <div>
           <Switch>
@@ -123,7 +109,7 @@ const App = () => {
   const Users = ({ users }) => (
     <div>
       <TableContainer component={Paper}>
-        <Table>
+        <Table >
           <TableHead>
             <tr><th align='left'>Users:</th><th align='left'>Blogs created:</th></tr>
           </TableHead>
@@ -250,7 +236,7 @@ const App = () => {
             <TextField label="username" onChange={({ target }) => setUsername(target.value)} />
           </div>
           <div>
-            <TextField label="password" type='password' onChange={({ target }) => setPassword(target.value)} />
+            <TextField label="password" Input type='password' onChange={({ target }) => setPassword(target.value)} />
           </div>
           <div>
             <Button variant="contained" color="primary" type="submit" id='login'>

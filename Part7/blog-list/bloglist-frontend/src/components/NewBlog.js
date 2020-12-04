@@ -17,7 +17,7 @@ const NewBlog = (props) => {
 
   return (
     <div>
-      <h2>create new</h2>
+      <h2>create new blog</h2>
       <form onSubmit={handleNewBlog}>
         <div>
           author
