@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import Notification from './components/Notification'
+import blogService from './services/blogs'
 import loginService from './services/login'
 import Togglable from './components/Togglable'
 import NewBlog from './components/NewBlog'
+import NewComment from './components/NewComment'
 import { setMessage } from './reducers/notifyReducer'
 import storage from './utils/storage'
 import { useDispatch, useSelector } from 'react-redux'
@@ -164,7 +166,34 @@ const App = () => {
         <div>added by {blog.user.name}</div>
         <div>
           {user.username === blog.user.username && <button onClick={() => handleRemove(blog.id)}>remove</button>}</div>
-      </div>)
+        <h2>Comments</h2>
+        <Togglable buttonLabel='Comment' ref={blogFormRef}>
+          <NewComment createComment={comment}
+            id={blog.id} />
+        </Togglable>
+
+        {blog.comments.map(comment =>
+          <li key={blog.id}>
+            {comment}</li>)}
+      </div>
+    )
+  }
+
+  const comment = async ( comment ) => {
+    const id = blogs.id
+    try {
+      const newComment = { 'comment': comment }
+      await blogService.comment(newComment, id)
+      dispatch(initializeBlogs(blogs.map(blog => blog.id === id
+        ? { ...blog, comments: blog.comments.concat(comment) }
+        : blog
+      )))
+      notifyWith(`new comment ${comment} added!`)
+
+    }
+    catch (exception) {
+      console.log(exception)
+    }
   }
 
   const byLikes = (b1, b2) => b2.likes - b1.likes
