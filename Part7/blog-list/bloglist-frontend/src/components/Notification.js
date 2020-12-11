@@ -8,7 +8,6 @@ const Notification = () => {
     return null
   }
 
-
   return <div>
     {(notification.message &&
       <Alert severity="success">

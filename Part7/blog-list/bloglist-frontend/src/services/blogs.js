@@ -8,10 +8,6 @@ const getConfig = () => {
     headers: { Authorization: `bearer ${storage.loadUser().token}` }
   }
 }
-const comment = (comments, id) => {
-  const request = axios.post(`${baseUrl}/${id}/comments`, comments, getConfig())
-  return request.then(response => response.data)
-}
 
 const getAll = () => {
   const request = axios.get(baseUrl)
@@ -33,4 +29,4 @@ const remove = (id) => {
   return request.then(response => response.data)
 }
 
-export default { getAll, comment, create, update, remove }
+export default { getAll, create, update, remove }

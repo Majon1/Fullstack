@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import Notification from './components/Notification'
-import blogService from './services/blogs'
 import loginService from './services/login'
 import Togglable from './components/Togglable'
 import NewBlog from './components/NewBlog'
-import NewComment from './components/NewComment'
 import { setMessage } from './reducers/notifyReducer'
 import storage from './utils/storage'
 import { useDispatch, useSelector } from 'react-redux'
@@ -146,7 +144,7 @@ const App = () => {
               <tr><th align="left">Added blogs:</th></tr>
             </TableHead>
             <TableBody>
-              {user.blogs.map(blog => <TableRow key={blog.id}><TableCell><Link to={`/blogs/${blog.id}`}>{blog.title} </Link></TableCell> </TableRow>)}
+              {user.blogs.map(blog => <TableRow key={blog.id}><TableCell><Link to={`/blogs/${blog.id}`}>{blog.title}</Link></TableCell></TableRow>)}
             </TableBody>
           </Table>
         </TableContainer>
@@ -167,33 +165,11 @@ const App = () => {
         <div>
           {user.username === blog.user.username && <button onClick={() => handleRemove(blog.id)}>remove</button>}</div>
         <h2>Comments</h2>
-        <Togglable buttonLabel='Comment' ref={blogFormRef}>
-          <NewComment createComment={comment}
-            id={blog.id} />
-        </Togglable>
-
         {blog.comments.map(comment =>
           <li key={blog.id}>
             {comment}</li>)}
       </div>
     )
-  }
-
-  const comment = async ( comment ) => {
-    const id = blogs.id
-    try {
-      const newComment = { 'comment': comment }
-      await blogService.comment(newComment, id)
-      dispatch(initializeBlogs(blogs.map(blog => blog.id === id
-        ? { ...blog, comments: blog.comments.concat(comment) }
-        : blog
-      )))
-      notifyWith(`new comment ${comment} added!`)
-
-    }
-    catch (exception) {
-      console.log(exception)
-    }
   }
 
   const byLikes = (b1, b2) => b2.likes - b1.likes
@@ -265,7 +241,7 @@ const App = () => {
             <TextField label="username" onChange={({ target }) => setUsername(target.value)} />
           </div>
           <div>
-            <TextField label="password" Input type='password' onChange={({ target }) => setPassword(target.value)} />
+            <TextField label="password" type='password' onChange={({ target }) => setPassword(target.value)} />
           </div>
           <div>
             <Button variant="contained" color="primary" type="submit" id='login'>
@@ -282,7 +258,8 @@ const App = () => {
       <div>
         <Menu />
       </div>
-    </Container>)
+    </Container>
+  )
 }
 
 export default App
